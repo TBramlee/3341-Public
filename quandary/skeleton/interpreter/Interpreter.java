@@ -69,7 +69,7 @@ public class Interpreter {
             throw new RuntimeException(ex);
         }
         try {
-            astRoot = ParserWrapper.parse(reader);
+            astRoot = ParserWrapper.parse(reader); //builds AST
         } catch (Exception ex) {
             Interpreter.fatalError("Uncaught parsing error: " + ex, Interpreter.EXIT_PARSING_ERROR);
         }
