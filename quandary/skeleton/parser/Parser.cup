@@ -51,10 +51,15 @@ expr ::= INTCONST:c
          {: RESULT = e; :}
       |  LPAREN expr:e RPAREN
          {: RESULT = e; :}
+      |  MINUS expr:e
+         {: RESULT = new UnaryMinusExpr(e, loc(eleft, eright)); :}
+         %prec NEGATE
       ;
 
 binaryExpr ::= expr:e1 PLUS expr:e2
                {: RESULT = new BinaryExpr(e1, BinaryExpr.PLUS, e2, loc(e1left, e1right)); :}
             |  expr:e1 MINUS expr:e2
                {: RESULT = new BinaryExpr(e1, BinaryExpr.MINUS, e2, loc(e1left, e1right)); :}
+            |  expr:e1 TIMES expr:e2
+               {: RESULT = new BinaryExpr(e1, BinaryExpr.TIMES, e2, loc(e1left, e1right)); :}
             ;
