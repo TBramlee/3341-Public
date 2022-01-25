@@ -27,7 +27,7 @@ parser code {:
 
 :};
 
-terminal PLUS, MINUS, LPAREN, RPAREN, TIMES, NEGATE;
+terminal PLUS, MINUS, LPAREN, RPAREN, TIMES, NEGATE, RETURN, SEMICOLON;
 terminal Long    INTCONST;
 
 non terminal Program         program;
@@ -41,7 +41,7 @@ precedence left NEGATE;
 
 start with program;
 
-program ::= expr:e
+program ::= RETURN expr:e SEMICOLON
             {: RESULT = new Program(e, loc(eleft, eright)); :}
          ;
 

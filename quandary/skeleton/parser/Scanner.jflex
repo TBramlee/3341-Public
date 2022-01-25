@@ -66,6 +66,8 @@ white_space = {new_line} | [ \t\f]
 "("               { return symbol("(",  LPAREN); }
 ")"               { return symbol(")",  RPAREN); }
 "*"               { return symbol("*",  TIMES); }
+"return"          { return symbol("return",  RETURN); }
+";"               { return symbol(";",  SEMICOLON); }
 
 /* comments */
 "/*" [^*] ~"*/" | "/*" "*"+ "/"
