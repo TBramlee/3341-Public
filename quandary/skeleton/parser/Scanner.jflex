@@ -50,6 +50,8 @@ import interpreter.Interpreter;
 
 IntLiteral = 0 | [1-9][0-9]*
 
+Identifier = [a-zA-Z]*
+
 new_line = \r|\n|\r\n;
 
 white_space = {new_line} | [ \t\f]
@@ -60,14 +62,21 @@ white_space = {new_line} | [ \t\f]
 /* int literals */
 {IntLiteral} { return symbol("Intconst", INTCONST, new Long(Long.parseLong(yytext()))); }
 
+/* identifiers */
+{Identifier} { return symbol("Identifier", IDENT, new String(sym.Identifier); }
+
 /* separators */
 "+"               { return symbol("+",  PLUS); }
 "-"               { return symbol("-",  MINUS); }
 "("               { return symbol("(",  LPAREN); }
 ")"               { return symbol(")",  RPAREN); }
+"{"               { return symbol("{", LCURLY); }
+"}"               { return symbol("{", RCURLY); }
 "*"               { return symbol("*",  TIMES); }
 "return"          { return symbol("return",  RETURN); }
 ";"               { return symbol(";",  SEMICOLON); }
+"int"             { return symbol("int",  INT); }
+
 
 /* comments */
 "/*" [^*] ~"*/" | "/*" "*"+ "/"

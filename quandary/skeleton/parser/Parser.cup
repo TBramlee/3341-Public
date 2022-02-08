@@ -27,12 +27,14 @@ parser code {:
 
 :};
 
-terminal PLUS, MINUS, LPAREN, RPAREN, TIMES, NEGATE, RETURN, SEMICOLON;
+terminal PLUS, MINUS, LPAREN, RPAREN, TIMES, NEGATE, RETURN, SEMICOLON,
+         LCURLY, RCURLY, INT, IDENT, NIL;
 terminal Long    INTCONST;
 
 non terminal Program         program;
 non terminal Expr            expr;
 non terminal BinaryExpr      binaryExpr;
+non terminal StmtList        stmtList;
 
 precedence left PLUS, MINUS;
 precedence left TIMES;
@@ -41,9 +43,13 @@ precedence left NEGATE;
 
 start with program;
 
-program ::= RETURN expr:e SEMICOLON
-            {: RESULT = new Program(e, loc(eleft, eright)); :}
+program ::= INT IDENT LPAREN INt IDENT: arg RPAREN LCURLY stmtList:l RCURLY
+         {: RESULT = new Program(e, loc(eleft, eright)); :}
          ;
+
+stmt ::= stmt:s stmtList
+         {: RESULT = new Statement(e, loc(eleft, eright)); :}
+      
 
 expr ::= INTCONST:c
          {: RESULT = new ConstExpr(c, loc(cleft, cright)); :}
