@@ -18,11 +18,11 @@ int main() {
 
   *p = 4;
 
-  cout << "BEFORE FIRST MODIFICATION: p = " << p << ", w = " << w << ", x = " << x << endl;
+  cout << "AFTER FIRST MODIFICATION: p = " << p << ", w = " << w << ", x = " << x << endl;
 
   *(p + 1) = 5; // same as *((int*)((void*)p + 8)) = 5;
 
-  cout << "AFTER MODIFICATIONS:       p = " << p << ", w = " << w << ", x = " << x << endl;
+  cout << "AFTER SECOND MODIFICATIONS:       p = " << p << ", w = " << w << ", x = " << x << endl;
 
   cout << "*p = " << *p << endl;
 
