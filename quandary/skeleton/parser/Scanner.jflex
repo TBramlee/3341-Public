@@ -73,6 +73,18 @@ white_space = {new_line} | [ \t\f]
 "return"          { return symbol("return",  RETURN); }
 ";"               { return symbol(";",  SEMICOLON); }
 "int"             { return symbol("int",  INT); }
+"="               { return symbol("=",  ASSIGN); }
+
+//conditional separators
+"=="              { return symbol("==",  EQUAL); }
+">="              { return symbol(">=",  GREATEREQUAL); }
+">"               { return symbol(">",  GREATERTHAN); }
+"<="              { return symbol("<=",  LESSEREQUAL); }
+"<"               { return symbol("<",  LESSERTHAN); }
+"!="              { return symbol("!=",  NOTEQUAL); }
+"&&"              { return symbol("&&",  AND); }
+"||"              { return symbol("||",  OR); }
+"!"               { return symbol("!",  NOT); }
 
 /* identifiers */
 {Identifier} { return symbol("Identifier", IDENT, yytext(); }

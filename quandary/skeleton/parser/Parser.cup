@@ -28,7 +28,10 @@ parser code {:
 :};
 
 terminal PLUS, MINUS, LPAREN, RPAREN, TIMES, NEGATE, RETURN, SEMICOLON,
-         LCURLY, RCURLY, INT, IDENT, NIL;
+         LCURLY, RCURLY, INT, IDENT, NIL, ASSIGN, PRINT;
+//conditional terminals
+terminal EQUAL, GREATEREQUAL, GREATERTHAN, LESSEREQUAL, LESSERTHAN, 
+         NOTEQUAL, NOT, AND, OR, IF, ELSE;
 terminal Long    INTCONST;
 
 non terminal Program         program;
@@ -43,13 +46,15 @@ precedence left NEGATE;
 
 start with program;
 
-program ::= INT IDENT LPAREN INt IDENT: arg RPAREN LCURLY stmtList:l RCURLY
+program ::= INT IDENT LPAREN INt IDENT: arg RPAREN LCURLY stmtList:sl RCURLY
          {: RESULT = new Program(e, loc(eleft, eright)); :}
          ;
 
-stmt ::= stmt:s stmtList
-         {: RESULT = new Statement(e, loc(eleft, eright)); :}
-      
+stmtList ::= stmt:s stmtList
+         {: RESULT = new Statement(s, loc(sleft, sright)); :}
+      ;
+
+stmt ::= varDecl ASSIGN expr SEMICOLON
 
 expr ::= INTCONST:c
          {: RESULT = new ConstExpr(c, loc(cleft, cright)); :}
