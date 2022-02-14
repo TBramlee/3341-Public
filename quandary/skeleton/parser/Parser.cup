@@ -46,8 +46,12 @@ precedence left NEGATE;
 
 start with program;
 
-program ::= INT IDENT LPAREN INt IDENT: arg RPAREN LCURLY stmtList:sl RCURLY
-         {: RESULT = new Program(e, loc(eleft, eright)); :}
+program ::= INT IDENT LPAREN INT IDENT: arg RPAREN LCURLY stmtList:sl RCURLY
+         {: RESULT = new Program(arg, loc(argleft, argright)); :}
+         ;
+
+varDecl ::= INT IDENT:i 
+         {: RESULT = new Variable(i, loc(ileft, iright)); :}
          ;
 
 stmtList ::= stmt:s stmtList
