@@ -28,8 +28,9 @@ parser code {:
 :};
 
 terminal PLUS, MINUS, LPAREN, RPAREN, TIMES, NEGATE, RETURN, SEMICOLON,
-         LCURLY, RCURLY, INT, IDENT, NIL, ASSIGN, PRINT;
-//conditional terminals
+         LCURLY, RCURLY, INT, IDENT, NIL, ASSIGN, PRINT, COMMA;
+
+/* conditional terminals */
 terminal EQUAL, GREATEREQUAL, GREATERTHAN, LESSEREQUAL, LESSERTHAN, 
          NOTEQUAL, NOT, AND, OR, IF, ELSE;
 terminal Long    INTCONST;
@@ -37,7 +38,12 @@ terminal Long    INTCONST;
 non terminal Program         program;
 non terminal Expr            expr;
 non terminal BinaryExpr      binaryExpr;
-non terminal StmtList        stmtList;
+non terminal StmtList        stmtList; 
+non terminal Stmt            stmt;
+non terminal varDecl         varDecl;
+non terminal formalDeclList  formalDeclList;
+non terminal NeFormalDeclList    neFormalDeclList;
+non terminal Cond            cond;
 
 precedence left PLUS, MINUS;
 precedence left TIMES;
@@ -54,11 +60,18 @@ varDecl ::= INT IDENT:i
          {: RESULT = new Variable(i, loc(ileft, iright)); :}
          ;
 
+formalDeclList ::= varDecl COMMA neFormalDeclList
+                | 
+                ;
+
 stmtList ::= stmt:s stmtList
          {: RESULT = new Statement(s, loc(sleft, sright)); :}
       ;
 
 stmt ::= varDecl ASSIGN expr SEMICOLON
+      |  IF LPAREN cond:c RPAREN stmt:s
+         {: RESULT = new CondIf(c, loc(cleft, cright)); :}
+
 
 expr ::= INTCONST:c
          {: RESULT = new ConstExpr(c, loc(cleft, cright)); :}

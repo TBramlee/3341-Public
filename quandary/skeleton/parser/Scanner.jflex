@@ -74,6 +74,7 @@ white_space = {new_line} | [ \t\f]
 ";"               { return symbol(";",  SEMICOLON); }
 "int"             { return symbol("int",  INT); }
 "="               { return symbol("=",  ASSIGN); }
+","               { return symbol(",",  COMMA); }
 
 //conditional separators
 "=="              { return symbol("==",  EQUAL); }
@@ -85,6 +86,11 @@ white_space = {new_line} | [ \t\f]
 "&&"              { return symbol("&&",  AND); }
 "||"              { return symbol("||",  OR); }
 "!"               { return symbol("!",  NOT); }
+
+//keywords
+"if"               { return symbol("if",  IF); }
+"else"               { return symbol("else",  ELSE); }
+
 
 /* identifiers */
 {Identifier} { return symbol("Identifier", IDENT, yytext(); }
