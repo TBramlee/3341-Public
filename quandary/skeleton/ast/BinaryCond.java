@@ -1,6 +1,6 @@
 package ast;
 
-public class CompoundCond extends Expr {
+public class BinaryCond extends Expr {
 
     public static final int AND = 1;
     public static final int OR = 2;
@@ -9,7 +9,7 @@ public class CompoundCond extends Expr {
     final int operator;
     final Expr expr2;
 
-    public CompoundCond(CondExpr expr1, int operator, CondExpr expr2, Location loc) {
+    public BinaryCond(CondExpr expr1, int operator, CondExpr expr2, Location loc) {
         super(loc);
         this.expr1 = expr1;
         this.operator = operator;

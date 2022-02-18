@@ -52,8 +52,9 @@ precedence left NEGATE;
 
 start with program;
 
-program ::= INT IDENT LPAREN INT IDENT: arg RPAREN LCURLY stmtList:sl RCURLY
+program ::= INT IDENT LPAREN INT IDENT:arg RPAREN LCURLY stmtList RCURLY
          {: RESULT = new Program(arg, loc(argleft, argright)); :}
+         |  varDecl LPAREN formalDeclList RPAREN LCURLY stmtList RCURLY
          ;
 
 varDecl ::= INT IDENT:i 
@@ -75,7 +76,10 @@ stmtList ::= stmt:s stmtList
 stmt ::= varDecl ASSIGN expr SEMICOLON
       |  IF LPAREN cond RPAREN stmt:s
          {: RESULT = new CondIf(c, loc(cleft, cright)); :}
-      |  IF LPAREN cond:c
+      |  IF LPAREN cond:c RPAREN stmt:s ELSE stmt:s
+
+      | RETURN expr 
+
       ;
 
 expr ::= INTCONST:c
@@ -84,8 +88,8 @@ expr ::= INTCONST:c
          {: RESULT = e; :}
       |  LPAREN expr:e RPAREN
          {: RESULT = e; :}
-      |  IDENT:i
-         {: RESULT = new Identifier(i, loc(ileft, iRright)); :}
+      |  IDENT
+
       |  MINUS expr:e
          {: RESULT = new UnaryMinusExpr(e, loc(eleft, eright)); :}
          %prec NEGATE
@@ -118,10 +122,10 @@ cond ::= expr:e1 LESSTHANEQUAL expr:e2
          {: RESULT = new CondExpr(e1, CondExpr.GREATERTHAN, e2, loc(e1left, e1right)); :}
 
       |  cond:c1 AND cond:c2
-         {: RESULT = new CompoundCond(c1, CompoundCond.AND, c2, loc(c1left, c1right)); :}
+         {: RESULT = new BinaryCond(c1, BinaryCond.AND, c2, loc(c1left, c1right)); :}
       
       |  cond:c1 OR cond:c2
-         {: RESULT = new CompoundCond(c1, CompoundCond.OR, c2, loc(c1left, c1right)); :}
+         {: RESULT = new BinaryCond(c1, BinaryCond.OR, c2, loc(c1left, c1right)); :}
 
       |  NOT cond
          {: RESULT = new CondExpr(e1, CondExpr.NOT, e2, loc(e1left, e1right)); :}
