@@ -78,10 +78,10 @@ white_space = {new_line} | [ \t\f]
 
 //conditional separators
 "=="              { return symbol("==",  EQUAL); }
-">="              { return symbol(">=",  GREATEREQUAL); }
+">="              { return symbol(">=",  GREATERTHANEQUAL); }
 ">"               { return symbol(">",  GREATERTHAN); }
-"<="              { return symbol("<=",  LESSEREQUAL); }
-"<"               { return symbol("<",  LESSERTHAN); }
+"<="              { return symbol("<=",  LESSTHANEQUAL); }
+"<"               { return symbol("<",  LESSTHAN); }
 "!="              { return symbol("!=",  NOTEQUAL); }
 "&&"              { return symbol("&&",  AND); }
 "||"              { return symbol("||",  OR); }
@@ -93,7 +93,7 @@ white_space = {new_line} | [ \t\f]
 
 
 /* identifiers */
-{Identifier} { return symbol("Identifier", IDENT, yytext(); }
+{Identifier} { return symbol("Identifier", IDENT, yytext()); }
 
 /* comments */
 "/*" [^*] ~"*/" | "/*" "*"+ "/"
