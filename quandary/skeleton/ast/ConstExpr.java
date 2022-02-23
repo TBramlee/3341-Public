@@ -1,8 +1,10 @@
 package ast;
 
+import java.util.HashMap;
+
 public class ConstExpr extends Expr {
 
-    final Object value;
+    final Long value;
 
     public ConstExpr(long value, Location loc) {
         super(loc);
@@ -15,7 +17,7 @@ public class ConstExpr extends Expr {
     }
 
     @Override
-    Object eval() {
+    Long eval(HashMap<String, Long> env) {
         return value;
     }
 }

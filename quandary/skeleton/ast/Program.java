@@ -1,21 +1,23 @@
 package ast;
 
 import java.io.PrintStream;
+import java.util.HashMap;
 
 public class Program extends ASTNode {
 
-    final Expr expr;
+    final String argName;
+    final StmtList stmtList;
 
-    public Program(Expr expr, Location loc) {
+    public Program(String argName, StmtList stmtList, Location loc) {
         super(loc);
-        this.expr = expr;
-    }
-
-    public void println(PrintStream ps) {
-        ps.println(expr);
+        this.argName = argName;
+        this.stmtList = stmtList;
     }
 
     public Object exec(long argument) {
-        return expr.eval();
+        HashMap<String, Long> env = new HashMap<String, Long>();
+        env.put(argName, argument);
+        return stmtList.exec(env);
+
     }
 }

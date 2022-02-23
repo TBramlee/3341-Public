@@ -52,13 +52,9 @@ precedence left NEGATE;
 
 start with program;
 
-program ::= INT IDENT LPAREN INT IDENT:arg RPAREN LCURLY stmtList RCURLY
-         {: RESULT = new Program(arg, loc(argleft, argright)); :}
+program ::= INT IDENT LPAREN INT IDENT:arg RPAREN LCURLY stmtList:sl RCURLY
+         {: RESULT = new Program(arg, sl, loc(argleft, argright)); :}
          |  varDecl LPAREN formalDeclList RPAREN LCURLY stmtList RCURLY
-         ;
-
-varDecl ::= INT IDENT:i 
-         {: RESULT = new Variable(i, loc(ileft, iright)); :}
          ;
 
 formalDeclList ::= neFormalDeclList
@@ -69,17 +65,25 @@ neFormalDeclList ::= varDecl COMMA neFormalDeclList
                   | varDecl
                   ;
 
-stmtList ::= stmt:s stmtList
-         {: RESULT = new Statement(s, loc(sleft, sright)); :}
+stmtList ::= stmt:s stmtList:sl
+             {: RESULT = new StmtList(s, sl, loc(sleft, sright)); :}
+         |    /*string*/
+             {: RESULT = null; :}
+            
       ;
 
-stmt ::= varDecl ASSIGN expr SEMICOLON
-      |  IF LPAREN cond RPAREN stmt:s
-         {: RESULT = new CondIf(c, loc(cleft, cright)); :}
-      |  IF LPAREN cond:c RPAREN stmt:s ELSE stmt:s
-
-      | RETURN expr 
-
+stmt ::= INT IDENT:id ASSIGN expr:e SEMICOLON
+         {: RESULT = new DeclStmt(id, e, loc(idleft, idright)); :}
+      |  IF LPAREN cond:c RPAREN stmt:s
+         {: RESULT = new IfStmt(c, s, null, loc(cleft, cright)); :}
+      |  IF LPAREN cond:c RPAREN stmt:s1 ELSE stmt:s2
+         {: RESULT = new IfStmt(c, s1, s2, loc(cleft, cright)); :}
+      |  PRINT expr:e SEMICOLON
+         {:RESULT = new PrintStmt(e, loc(eleft, eright)); :}
+      |  RETURN expr:e SEMICOLON
+         {:RESULT = new ReturnStmt(e, loc(eleft, eright)); :}
+      |  LCURLY stmtList:sl RCURLY
+         {:RESULT = sl; :}
       ;
 
 expr ::= INTCONST:c

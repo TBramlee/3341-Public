@@ -1,4 +1,5 @@
 package ast;
+import java.util.HashMap;
 
 public class UnaryMinusExpr extends Expr {
 
@@ -21,12 +22,8 @@ public class UnaryMinusExpr extends Expr {
     }
 
     @Override
-    Object eval() {
-        return doOperation(expr.eval());
+    Long eval(HashMap<String, Long> env) {
+        return -(long)expr.eval(env);
     }
 
-    static Object doOperation(Object value1) {
-        
-        return -(long)value1;
-    }
 }
