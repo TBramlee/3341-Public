@@ -28,7 +28,7 @@ parser code {:
 :};
 
 terminal PLUS, MINUS, LPAREN, RPAREN, TIMES, NEGATE, RETURN, SEMICOLON,
-         LCURLY, RCURLY, INT, IDENT, NIL, ASSIGN, PRINT, COMMA;
+         LCURLY, RCURLY, INT, NIL, ASSIGN, PRINT, COMMA;
 
 /* conditional terminals */
 terminal EQ, GE, GT, LE, LT, 
@@ -42,8 +42,6 @@ non terminal BinaryExpr      binaryExpr;
 non terminal StmtList        stmtList; 
 non terminal Stmt            stmt;
 non terminal varDecl         varDecl;
-non terminal formalDeclList  formalDeclList;
-non terminal NeFormalDeclList    neFormalDeclList;
 non terminal Cond            cond;
 
 precedence left PLUS, MINUS;
@@ -57,7 +55,6 @@ precedence left NOT;
 
 precedence left LE, GE, GT, LT, EQ, NE;
 
-
 start with program;
 
 program ::= INT IDENT LPAREN INT IDENT:arg RPAREN LCURLY stmtList:sl RCURLY
@@ -67,8 +64,7 @@ program ::= INT IDENT LPAREN INT IDENT:arg RPAREN LCURLY stmtList:sl RCURLY
 stmtList ::= stmt:s stmtList:sl
              {: RESULT = new StmtList(s, sl, loc(sleft, sright)); :}
          |    /*string*/
-             {: RESULT = null; :}
-            
+             {: RESULT = null; :}  
       ;
 
 stmt ::= INT IDENT:id ASSIGN expr:e SEMICOLON
@@ -87,15 +83,15 @@ stmt ::= INT IDENT:id ASSIGN expr:e SEMICOLON
 
 expr ::= INTCONST:c
          {: RESULT = new ConstExpr(c, loc(cleft, cright)); :}
+         IDENT:id
+         {: RESULT = new IdentExpr(id, loc(idleft, idright)); :}
       |  binaryExpr:e
          {: RESULT = e; :}
-      |  LPAREN expr:e RPAREN
-         {: RESULT = e; :}
-      |  IDENT
-
       |  MINUS expr:e
          {: RESULT = new UnaryMinusExpr(e, loc(eleft, eright)); :}
          %prec NEGATE
+      |  LPAREN expr:e RPAREN
+         {: RESULT = e; :}
       ;
 
 binaryExpr ::= expr:e1 PLUS expr:e2
@@ -132,6 +128,7 @@ cond ::= expr:e1 LE expr:e2
 
       |  NOT cond:c1
          {: RESULT = new LogicalCond(c1, LogicalCond.NOT, null, loc(c1left, c1right)); :}
+     
       |  LPAREN cond:c RPAREN
          {: RESULT = c; :}
       ;

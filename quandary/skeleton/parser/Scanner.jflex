@@ -77,12 +77,12 @@ white_space = {new_line} | [ \t\f]
 ","               { return symbol(",",  COMMA); }
 
 //conditional separators
-"=="              { return symbol("==",  EQUAL); }
-">="              { return symbol(">=",  GREATERTHANEQUAL); }
-">"               { return symbol(">",  GREATERTHAN); }
-"<="              { return symbol("<=",  LESSTHANEQUAL); }
-"<"               { return symbol("<",  LESSTHAN); }
-"!="              { return symbol("!=",  NOTEQUAL); }
+"=="              { return symbol("==",  EQ); }
+">="              { return symbol(">=",  GE); }
+">"               { return symbol(">",  GT); }
+"<="              { return symbol("<=",  LE); }
+"<"               { return symbol("<",  LT); }
+"!="              { return symbol("!=",  NE); }
 "&&"              { return symbol("&&",  AND); }
 "||"              { return symbol("||",  OR); }
 "!"               { return symbol("!",  NOT); }

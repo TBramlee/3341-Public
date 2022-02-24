@@ -36,7 +36,11 @@ public class BinaryExpr extends Expr {
 
     @Override
     Long eval(HashMap<String, Long> env) {
-        return doOperation(expr1.eval(env), operator, expr2.eval(env));
+        if (expr2!= null) {
+            return doOperation(expr1.eval(env), operator, expr2.eval(env));
+        }
+        return (long)expr1.eval(env);
+       
     }
 
     static Long doOperation(Object value1, int operator, Object value2) {
