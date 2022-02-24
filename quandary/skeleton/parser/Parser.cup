@@ -83,7 +83,7 @@ stmt ::= INT IDENT:id ASSIGN expr:e SEMICOLON
 
 expr ::= INTCONST:c
          {: RESULT = new ConstExpr(c, loc(cleft, cright)); :}
-         IDENT:id
+      |   IDENT:id
          {: RESULT = new IdentExpr(id, loc(idleft, idright)); :}
       |  binaryExpr:e
          {: RESULT = e; :}

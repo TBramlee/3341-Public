@@ -71,6 +71,7 @@ white_space = {new_line} | [ \t\f]
 "}"               { return symbol("{", RCURLY); }
 "*"               { return symbol("*",  TIMES); }
 "return"          { return symbol("return",  RETURN); }
+"print"          { return symbol("print",  PRINT); }
 ";"               { return symbol(";",  SEMICOLON); }
 "int"             { return symbol("int",  INT); }
 "="               { return symbol("=",  ASSIGN); }
