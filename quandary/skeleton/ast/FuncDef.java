@@ -18,4 +18,8 @@ public class FuncDef {
     public String getName() {
         return funcName;
     }
+
+    public FormalDeclList getDeclList() {
+        return parameters;
+    }
 }

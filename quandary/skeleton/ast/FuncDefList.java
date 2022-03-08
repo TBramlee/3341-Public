@@ -11,6 +11,7 @@ public class FuncDefList {
         super(loc);
         this.funcDef = funcDef;
         this.list = list;
+        if FuncDefList
     }
 
 }
