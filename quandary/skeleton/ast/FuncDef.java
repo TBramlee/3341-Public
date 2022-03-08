@@ -15,4 +15,7 @@ public class FuncDef {
         this.stmtList = stmtList;
     }
 
+    public String getName() {
+        return funcName;
+    }
 }

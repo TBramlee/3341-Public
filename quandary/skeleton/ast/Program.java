@@ -10,7 +10,7 @@ public class Program extends ASTNode {
     final String argName;
     final StmtList stmtList;
 
-    public Program(String argName, StmtList stmtList, Location loc) {
+    public Program(FuncDefList funcDefList, Location loc) {
         super(loc);
         this.argName = argName;
         this.stmtList = stmtList;
