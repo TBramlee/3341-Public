@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 public class Program extends ASTNode {
 
+    static Program theProgram;
+    HashMap<String, FuncDef> funcDefList;
     final String argName;
     final StmtList stmtList;
 
@@ -12,6 +14,8 @@ public class Program extends ASTNode {
         super(loc);
         this.argName = argName;
         this.stmtList = stmtList;
+        this.theProgram = this;
+        funcDefList = new HashMap<String, FuncDef>();
     }
 
     public Object exec(long argument) {

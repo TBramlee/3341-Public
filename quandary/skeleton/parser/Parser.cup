@@ -61,11 +61,28 @@ program ::= INT IDENT LPAREN INT IDENT:arg RPAREN LCURLY stmtList:sl RCURLY
          {: RESULT = new Program(arg, sl, loc(argleft, argright)); :}
          ;
 
+funcDefList ::= funcDef funcDefList
+            |   /*null*/
+                {: RESULT = null; :}  
+            ;
+
+funcDef ::= INT IDENT LPAREN formalDeclList RPAREN LCURLY stmtList RCURLY
+
+formalDeclList ::= neFormalDeclList
+               |   /*null*/
+                   {: RESULT = null; :}  
+               ;
+
+neFormalDeclList ::= INT IDENT COMMA neFormalDeclList
+                 |   INT IDENT
+                     {: RESULT = null; :}  
+                 ;
+
 stmtList ::= stmt:s stmtList:sl
              {: RESULT = new StmtList(s, sl, loc(sleft, sright)); :}
-         |    /*string*/
+          |   /*string*/
              {: RESULT = null; :}  
-      ;
+          ;
 
 stmt ::= INT IDENT:id ASSIGN expr:e SEMICOLON
          {: RESULT = new DeclStmt(id, e, loc(idleft, idright)); :}
@@ -81,6 +98,15 @@ stmt ::= INT IDENT:id ASSIGN expr:e SEMICOLON
          {:RESULT = sl; :}
       ;
 
+exprList ::= neExprList:eList
+          |  /*null*/
+             {: RESULT = null; :}  
+         ;
+
+neExprList ::= expr:e COMMA neExprList:eList
+               {: RESULT = null; :}  
+           ;
+
 expr ::= INTCONST:c
          {: RESULT = new ConstExpr(c, loc(cleft, cright)); :}
       |   IDENT:id
@@ -92,6 +118,8 @@ expr ::= INTCONST:c
          %prec NEGATE
       |  LPAREN expr:e RPAREN
          {: RESULT = e; :}
+      |  IDENT:id LPAREN exprList:eList RPAREN
+         {: RESULT = new CallExpr(id, eList, loc(idleft, idright)); :}
       ;
 
 binaryExpr ::= expr:e1 PLUS expr:e2
