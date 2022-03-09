@@ -41,12 +41,11 @@ non terminal Expr            expr;
 non terminal BinaryExpr      binaryExpr;
 non terminal StmtList        stmtList; 
 non terminal Stmt            stmt;
-non terminal varDecl         varDecl;
 non terminal Cond            cond;
 non terminal FormalDeclList  formalDeclList, neFormalDeclList;
 non terminal FuncDef         funcDef;
 non terminal FuncDefList     funcDefList;
-non terminal ExprList
+non terminal ExprList        exprList, neExprList;
 
 precedence left PLUS, MINUS;
 precedence left TIMES;

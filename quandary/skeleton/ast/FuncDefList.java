@@ -1,8 +1,7 @@
 package ast;
 
-import java.util.HashMap;
 
-public class FuncDefList {
+public class FuncDefList extends ASTNode {
 
     FuncDef function;
     FuncDefList rest;
@@ -17,7 +16,7 @@ public class FuncDefList {
     public void fillList () {
 
         Program.theProgram.funcDefMap.put(function.getName(), function);
-        
+
         if (rest != null) {
             rest.fillList();
         }

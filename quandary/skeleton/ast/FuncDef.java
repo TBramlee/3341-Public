@@ -2,7 +2,7 @@ package ast;
 
 import java.util.HashMap;
 
-public class FuncDef {
+public class FuncDef extends ASTNode {
 
     String funcName;
     FormalDeclList parameters;

@@ -1,8 +1,8 @@
 package ast;
 
-import java.util.HashMap;
+import java.util.List;
 
-public class FormalDeclList {
+public class FormalDeclList extends ASTNode{
 
     String paramName;
     FormalDeclList others;
@@ -14,9 +14,10 @@ public class FormalDeclList {
       
     }
 
-    public void fillList () {
-        Program.theProgram.funcDefMap.put(function.getName(), function);
-        rest.fillList();
+    List<String> eval() {
+
+
+        return null;
     }
 
 }

@@ -1,12 +1,13 @@
 package ast;
 
 import java.util.HashMap;
-import java.util.Random;
+import java.util.List;
 
 public class ExprList extends Expr {
 
     Expr expr;
     ExprList eList;
+
 
     public ExprList(Expr expr, ExprList eList, Location loc) {
         super(loc);
@@ -14,10 +15,10 @@ public class ExprList extends Expr {
         this.eList = eList;
     }
 
-    @Override
     Long eval(HashMap<String, Long> env) {
-
         
         return null;
     }
+
+    void fillValueList(List<Long> values) {}
 }

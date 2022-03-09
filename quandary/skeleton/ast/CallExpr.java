@@ -1,7 +1,6 @@
 package ast;
 
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 public class CallExpr extends Expr {
 
@@ -17,18 +16,32 @@ public class CallExpr extends Expr {
     @Override
     Long eval(HashMap<String, Long> env) {
 
-        if (funcName == "randomInt") {
-            Random rand = new Random();
-            return rand.NextInt(ExprList.eval());
-        }
-        
         //create environment for function
         HashMap<String, Long> localEnv = new HashMap<String, Long>();
+
+        //check for built in function
+        if (funcName == "randomInt") {
+            Random rand = new Random();
+            Long val = localEnv.get("n");
+            int retval = rand.nextInt(val.intValue());
+            return new Long(retval);
+        }
+
+        //create lists of param names and values
+        List<Long> values = new ArrayList<Long>();
+        List<String> names = new ArrayList<String>();
+        
+        eList.eval(env);
+
+
+        
+
+        
 
         //Find function in Program.funcDefList
         FuncDef function = Program.theProgram.funcDefMap.get(funcName);
 
-        //check if 
-        function.execBody(localEnv);
+        //execute function body
+        return function.execBody(localEnv);
     }
 }
