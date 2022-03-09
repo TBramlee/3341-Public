@@ -26,7 +26,7 @@ public class FuncDef {
     public Long execBody(HashMap<String, Long> env) {
         //get parameters from FormalDeclList (java list)
 
-        //put parameters into 
+        //pass parameters into 
 
     }
 }

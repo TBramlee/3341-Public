@@ -14,7 +14,7 @@ public class CallExpr extends Expr {
     @Override
     Long eval(HashMap<String, Long> env) {
         //create environment for function
-        HashMap<String, FuncDef
+        HashMap<String, Long>
         //Find function in Program.funcDefList
 
         //Call funcDef.eval(), pass in env

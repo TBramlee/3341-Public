@@ -43,6 +43,10 @@ non terminal StmtList        stmtList;
 non terminal Stmt            stmt;
 non terminal varDecl         varDecl;
 non terminal Cond            cond;
+non terminal FormalDeclList  formalDeclList, neFormalDeclList;
+non terminal FuncDef         funcDef;
+non terminal FuncDefList     funcDefList;
+non terminal ExprList
 
 precedence left PLUS, MINUS;
 precedence left TIMES;
@@ -58,16 +62,17 @@ precedence left LE, GE, GT, LT, EQ, NE;
 start with program;
 
 program ::= funcDefList:fdList
-         {: RESULT = new Program(fdList, loc(argleft, argright)); :}
+         {: RESULT = new Program(fdList, loc(fdListleft, fdListright)); :}
          ;
 
-funcDefList ::= funcDef funcDefList
+funcDefList ::= funcDef:fDef funcDefList:fdList
+                {: RESULT = new FuncDefList(fDef, fdList, loc(fDefleft, fDefright)); :}
             |   /*null*/
                 {: RESULT = null; :}  
             ;
 
 funcDef ::= INT IDENT:id LPAREN formalDeclList:fdList RPAREN LCURLY stmtList:sl RCURLY
-            {: RESULT = new FuncDef(id, fdList, sl, loc(sleft, sright)); :}
+            {: RESULT = new FuncDef(id, fdList, sl, loc(idleft, idright)); :}
          ;
 
 formalDeclList ::= neFormalDeclList
@@ -75,9 +80,10 @@ formalDeclList ::= neFormalDeclList
                    {: RESULT = null; :}  
                ;
 
-neFormalDeclList ::= INT IDENT COMMA neFormalDeclList
-                 |   INT IDENT
-                     {: RESULT = null; :}  
+neFormalDeclList ::= INT IDENT:id COMMA neFormalDeclList:formalList
+                     {: RESULT = new FormalDeclList(id, formalList, loc(idleft, idright)); :}
+                 |   INT IDENT:id
+                     {: RESULT = new FormalDeclList(id, null, loc(idleft, idright)); :}
                  ;
 
 stmtList ::= stmt:s stmtList:sl
@@ -106,28 +112,38 @@ exprList ::= neExprList:eList
          ;
 
 neExprList ::= expr:e COMMA neExprList:eList
-               {: RESULT = null; :}  
+               {: RESULT = new ExprList(e, eList, loc(eleft, eright)); :} 
+               
+            |  expr:e
+               {: RESULT = new ExprList(e, null, loc(eleft, eright)); :} 
            ;
 
 expr ::= INTCONST:c
          {: RESULT = new ConstExpr(c, loc(cleft, cright)); :}
+
       |   IDENT:id
          {: RESULT = new IdentExpr(id, loc(idleft, idright)); :}
+
       |  binaryExpr:e
          {: RESULT = e; :}
+
       |  MINUS expr:e
          {: RESULT = new UnaryMinusExpr(e, loc(eleft, eright)); :}
          %prec NEGATE
+
       |  LPAREN expr:e RPAREN
          {: RESULT = e; :}
+
       |  IDENT:id LPAREN exprList:eList RPAREN
          {: RESULT = new CallExpr(id, eList, loc(idleft, idright)); :}
       ;
 
 binaryExpr ::= expr:e1 PLUS expr:e2
                {: RESULT = new BinaryExpr(e1, BinaryExpr.PLUS, e2, loc(e1left, e1right)); :}
+
             |  expr:e1 MINUS expr:e2
                {: RESULT = new BinaryExpr(e1, BinaryExpr.MINUS, e2, loc(e1left, e1right)); :}
+
             |  expr:e1 TIMES expr:e2
                {: RESULT = new BinaryExpr(e1, BinaryExpr.TIMES, e2, loc(e1left, e1right)); :}
             ;
