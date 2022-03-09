@@ -4,13 +4,13 @@ import java.util.HashMap;
 
 public class FormalDeclList {
 
-    FuncDef function;
-    FuncDefList rest;
+    String paramName;
+    FormalDeclList others;
 
-    public FormalDeclList(FuncDef funcDef, FuncDefList list, Location loc) {
+    public FormalDeclList(String paramName, FormalDeclList others, Location loc) {
         super(loc);
-        this.function = funcDef;
-        this.rest = list;
+        this.paramName = paramName;
+        this.others = others;
       
     }
 

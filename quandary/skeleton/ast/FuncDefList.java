@@ -15,8 +15,13 @@ public class FuncDefList {
     }
 
     public void fillList () {
+
         Program.theProgram.funcDefMap.put(function.getName(), function);
-        rest.fillList();
+        
+        if (rest != null) {
+            rest.fillList();
+        }
+        
     }
 
 }

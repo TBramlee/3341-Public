@@ -106,14 +106,14 @@ stmt ::= INT IDENT:id ASSIGN expr:e SEMICOLON
          {:RESULT = sl; :}
       ;
 
-exprList ::= neExprList:eList
+exprList ::= neExprList
           |  /*null*/
              {: RESULT = null; :}  
          ;
 
 neExprList ::= expr:e COMMA neExprList:eList
                {: RESULT = new ExprList(e, eList, loc(eleft, eright)); :} 
-               
+
             |  expr:e
                {: RESULT = new ExprList(e, null, loc(eleft, eright)); :} 
            ;

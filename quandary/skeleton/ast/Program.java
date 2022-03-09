@@ -17,10 +17,12 @@ public class Program extends ASTNode {
     }
 
     public Object exec(long argument) {
+        //Fill HashMap of function names to FuncDefinitions
         funcDefList.fillList();
-        HashMap<String, Long> env = new HashMap<String, Long>();
+        //create main env, and pass to main FuncDef
+        HashMap<String, Long> mainEnv = new HashMap<String, Long>();
         FuncDef main = funcDefMap.get("main");
-        return main.execBody(env);
+        return main.execBody(mainEnv);
 
     }
 }
