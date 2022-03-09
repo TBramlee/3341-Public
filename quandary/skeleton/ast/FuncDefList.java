@@ -9,9 +9,9 @@ public class FuncDefList {
 
     public FuncDefList(FuncDef funcDef, FuncDefList list, Location loc) {
         super(loc);
-        this.funcDef = funcDef;
+        this.function = funcDef;
         this.list = list;
-        if FuncDefList
+        Program.funcDefList
     }
 
 }

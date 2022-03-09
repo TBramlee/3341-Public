@@ -57,8 +57,8 @@ precedence left LE, GE, GT, LT, EQ, NE;
 
 start with program;
 
-program ::= INT IDENT LPAREN INT IDENT:arg RPAREN LCURLY stmtList:sl RCURLY
-         {: RESULT = new Program(arg, sl, loc(argleft, argright)); :}
+program ::= funcDefList:fdList
+         {: RESULT = new Program(fdList, loc(argleft, argright)); :}
          ;
 
 funcDefList ::= funcDef funcDefList

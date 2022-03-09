@@ -22,4 +22,11 @@ public class FuncDef {
     public FormalDeclList getDeclList() {
         return parameters;
     }
+
+    public Long execBody(HashMap<String, Long> env) {
+        //get parameters from FormalDeclList (java list)
+
+        //put parameters into 
+
+    }
 }
