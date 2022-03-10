@@ -13,16 +13,25 @@ public class CallExpr extends Expr {
         this.eList = eList;
     }
 
+
+    //Evaluates call to function. Creates local environment for function and populates it with parameters.
     @Override
     Long eval(HashMap<String, Long> env) {
 
         //create environment for function
         HashMap<String, Long> localEnv = new HashMap<String, Long>();
 
+        //create lists of param names and values
+        List<Long> values = new ArrayList<Long>();
+        List<String> names = new ArrayList<String>();
+
         //check for built in function
-        if (funcName == "randomInt") {
+        if (funcName.equals("randomInt")) {
             Random rand = new Random();
-            Long val = localEnv.get("n");
+
+            eList.fillValueList(values, localEnv);
+            Long val = values.get(0);
+
             int retval = rand.nextInt(val.intValue());
             return new Long(retval);
         }
@@ -30,9 +39,7 @@ public class CallExpr extends Expr {
         //Find function in Program.funcDefList
         FuncDef function = Program.theProgram.funcDefMap.get(funcName);
 
-        //create lists of param names and values
-        List<Long> values = new ArrayList<Long>();
-        List<String> names = new ArrayList<String>();
+        
         
         if(eList != null) {
             //fill lists
@@ -51,4 +58,6 @@ public class CallExpr extends Expr {
         //execute function body
         return function.execBody(localEnv);
     }
+
+
 }

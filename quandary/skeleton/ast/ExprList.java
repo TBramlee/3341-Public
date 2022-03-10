@@ -17,7 +17,7 @@ public class ExprList extends Expr {
 
     @Override
     Long eval(HashMap<String, Long> env) {
-        return null;
+        return expr.eval(env);
     }
 
     void fillValueList(List<Long> values, HashMap<String, Long> env) {
