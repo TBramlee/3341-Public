@@ -1,5 +1,6 @@
 package ast;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class FormalDeclList extends ASTNode{
@@ -14,10 +15,13 @@ public class FormalDeclList extends ASTNode{
       
     }
 
-    List<String> eval() {
+    void fillNameList(List<String> names, HashMap<String, Long> env) {
 
+        names.add(paramName);
 
-        return null;
+        if(others != null) {
+            others.fillNameList(names, env);
+        }
     }
 
 }

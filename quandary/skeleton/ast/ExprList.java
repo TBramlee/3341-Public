@@ -15,10 +15,18 @@ public class ExprList extends Expr {
         this.eList = eList;
     }
 
+    @Override
     Long eval(HashMap<String, Long> env) {
-        
         return null;
     }
 
-    void fillValueList(List<Long> values) {}
+    void fillValueList(List<Long> values, HashMap<String, Long> env) {
+
+        values.add(expr.eval(env));
+
+        if(eList != null) {
+            eList.fillValueList(values, env);
+        }
+
+    }
 }

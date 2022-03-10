@@ -23,12 +23,9 @@ public class FuncDef extends ASTNode {
         return parameters;
     }
 
-    public Long execBody(HashMap<String, Long> env) {
-        //get parameters from FormalDeclList (java list)
-
-        //pass parameters into 
-
-
-        return null;
+    //localEnv already has formal parameters and values
+    public Long execBody(HashMap<String, Long> localEnv) {
+        
+        return stmtList.exec(localEnv);
     }
 }

@@ -27,19 +27,26 @@ public class CallExpr extends Expr {
             return new Long(retval);
         }
 
+        //Find function in Program.funcDefList
+        FuncDef function = Program.theProgram.funcDefMap.get(funcName);
+
         //create lists of param names and values
         List<Long> values = new ArrayList<Long>();
         List<String> names = new ArrayList<String>();
         
-        eList.eval(env);
+        if(eList != null) {
+            //fill lists
+            eList.fillValueList(values, env);
+            function.getDeclList().fillNameList(names, env);
 
+            //fill local environment with paramater names and values
+            for (int i = 0; i < names.size(); i++) {
 
+                localEnv.put(names.get(i), values.get(i));
+
+            }
+        }
         
-
-        
-
-        //Find function in Program.funcDefList
-        FuncDef function = Program.theProgram.funcDefMap.get(funcName);
 
         //execute function body
         return function.execBody(localEnv);
