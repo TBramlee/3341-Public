@@ -1,8 +1,8 @@
 int main(int arg) {
     
-    int x = foo(5);
+    return foo(0);
 }
 
 int foo(int n) {
-    return n + 1;
+    return 5;
 }

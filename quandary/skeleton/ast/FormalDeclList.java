@@ -12,12 +12,14 @@ public class FormalDeclList extends ASTNode{
         super(loc);
         this.paramName = paramName;
         this.others = others;
-      
     }
 
     void fillNameList(List<String> names, HashMap<String, Long> env) {
 
-        names.add(paramName);
+        if (paramName != null) {
+            names.add(paramName);
+        }
+        
 
         if(others != null) {
             others.fillNameList(names, env);

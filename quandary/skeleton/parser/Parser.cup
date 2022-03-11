@@ -74,7 +74,8 @@ funcDef ::= INT IDENT:id LPAREN formalDeclList:fdList RPAREN LCURLY stmtList:sl 
             {: RESULT = new FuncDef(id, fdList, sl, loc(idleft, idright)); :}
          ;
 
-formalDeclList ::= neFormalDeclList
+formalDeclList ::= neFormalDeclList:formalList
+                   {: RESULT = new FormalDeclList(null, formalList, loc(formalListleft, formalListright)); :}
                |   /*null*/
                    {: RESULT = null; :}  
                ;
@@ -105,7 +106,8 @@ stmt ::= INT IDENT:id ASSIGN expr:e SEMICOLON
          {:RESULT = sl; :}
       ;
 
-exprList ::= neExprList
+exprList ::= neExprList: eList
+             {: RESULT = eList; :}
           |  /*null*/
              {: RESULT = null; :}  
          ;

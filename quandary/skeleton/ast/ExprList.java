@@ -17,13 +17,18 @@ public class ExprList extends Expr {
 
     @Override
     Long eval(HashMap<String, Long> env) {
-        return expr.eval(env);
+        if(expr!= null) {
+            return expr.eval(env);
+        }
+        return eList.eval(env);
     }
 
     void fillValueList(List<Long> values, HashMap<String, Long> env) {
 
-        values.add(expr.eval(env));
-
+        if(expr!= null) {
+            values.add(expr.eval(env));
+        }
+        
         if(eList != null) {
             eList.fillValueList(values, env);
         }
