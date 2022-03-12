@@ -75,7 +75,7 @@ funcDef ::= INT IDENT:id LPAREN formalDeclList:fdList RPAREN LCURLY stmtList:sl 
          ;
 
 formalDeclList ::= neFormalDeclList:formalList
-                   {: RESULT = new FormalDeclList(null, formalList, loc(formalListleft, formalListright)); :}
+                   {: RESULT = formalList; :}
                |   /*null*/
                    {: RESULT = null; :}  
                ;

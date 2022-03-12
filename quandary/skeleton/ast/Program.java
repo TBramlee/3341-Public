@@ -7,7 +7,7 @@ public class Program extends ASTNode {
 
     static Program theProgram;
     HashMap<String, FuncDef> funcDefMap;
-    FuncDefList funcDefList;
+    final FuncDefList funcDefList;
 
     public Program(FuncDefList funcDefList, Location loc) {
         super(loc);
@@ -27,7 +27,7 @@ public class Program extends ASTNode {
 
         //get arg for main, and put into environment
         //String argName = main.parameters.paramName;
-        mainEnv.put("main", argument);
+        mainEnv.put(main.parameters.paramName, argument);
 
         return main.execBody(mainEnv);
 

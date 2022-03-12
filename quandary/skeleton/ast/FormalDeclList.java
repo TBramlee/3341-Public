@@ -12,6 +12,8 @@ public class FormalDeclList extends ASTNode{
         super(loc);
         this.paramName = paramName;
         this.others = others;
+        // return RuntimeException.printStackTrace();
+
     }
 
     void fillNameList(List<String> names, HashMap<String, Long> env) {

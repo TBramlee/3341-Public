@@ -5,7 +5,7 @@ import java.util.*;
 public class CallExpr extends Expr {
 
     final String funcName;
-    ExprList eList;
+    final ExprList eList;
 
     public CallExpr(String funcName, ExprList eList, Location loc) {
         super(loc);
@@ -29,7 +29,7 @@ public class CallExpr extends Expr {
         if (funcName.equals("randomInt")) {
             Random rand = new Random();
 
-            eList.fillValueList(values, localEnv);
+            eList.fillValueList(values, env);
             Long val = values.get(0);
 
             int retval = rand.nextInt(val.intValue());
