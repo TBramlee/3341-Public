@@ -5,12 +5,12 @@ import java.util.List;
 
 public class FormalDeclList extends ASTNode{
 
-    String paramName;
+    final VarDecl varDecl;
     FormalDeclList others;
 
-    public FormalDeclList(String paramName, FormalDeclList others, Location loc) {
+    public FormalDeclList(VarDecl varDecl, FormalDeclList others, Location loc) {
         super(loc);
-        this.paramName = paramName;
+        this.varDecl = varDecl;
         this.others = others;
         // return RuntimeException.printStackTrace();
 
@@ -18,14 +18,19 @@ public class FormalDeclList extends ASTNode{
 
     void fillNameList(List<String> names, HashMap<String, Long> env) {
 
-        if (paramName != null) {
-            names.add(paramName);
+        //TO-DO: get rid of null check
+        if (varDecl != null) {
+            names.add(varDecl.getName());
         }
         
 
         if(others != null) {
             others.fillNameList(names, env);
         }
+    }
+
+    String getName() {
+        return varDecl.getName();
     }
 
 }

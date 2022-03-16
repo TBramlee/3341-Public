@@ -46,6 +46,7 @@ non terminal FormalDeclList  formalDeclList, neFormalDeclList;
 non terminal FuncDef         funcDef;
 non terminal FuncDefList     funcDefList;
 non terminal ExprList        exprList, neExprList;
+non terminal VarDecl         varDecl;
 
 precedence left PLUS, MINUS;
 precedence left TIMES;
@@ -70,9 +71,13 @@ funcDefList ::= funcDef:fDef funcDefList:fdList
                 {: RESULT = null; :}  
             ;
 
-funcDef ::= INT IDENT:id LPAREN formalDeclList:fdList RPAREN LCURLY stmtList:sl RCURLY
-            {: RESULT = new FuncDef(id, fdList, sl, loc(idleft, idright)); :}
+funcDef ::= varDecl:var LPAREN formalDeclList:fdList RPAREN LCURLY stmtList:sl RCURLY
+            {: RESULT = new FuncDef(var, fdList, sl, loc(varleft, varright)); :}
          ;
+
+varDecl ::= INT IDENT:id
+            {: RESULT = new VarDecl(id, loc(idleft, idright)); :}  
+            ;
 
 formalDeclList ::= neFormalDeclList:formalList
                    {: RESULT = formalList; :}
@@ -80,10 +85,10 @@ formalDeclList ::= neFormalDeclList:formalList
                    {: RESULT = null; :}  
                ;
 
-neFormalDeclList ::= INT IDENT:id COMMA neFormalDeclList:formalList
-                     {: RESULT = new FormalDeclList(id, formalList, loc(idleft, idright)); :}
-                 |   INT IDENT:id
-                     {: RESULT = new FormalDeclList(id, null, loc(idleft, idright)); :}
+neFormalDeclList ::= varDecl:var COMMA neFormalDeclList:formalList
+                     {: RESULT = new FormalDeclList(var, formalList, loc(varleft, varright)); :}
+                 |   varDecl:var
+                     {: RESULT = new FormalDeclList(var, null, loc(varleft, varright)); :}
                  ;
 
 stmtList ::= stmt:s stmtList:sl
@@ -92,8 +97,8 @@ stmtList ::= stmt:s stmtList:sl
              {: RESULT = null; :}  
           ;
 
-stmt ::= INT IDENT:id ASSIGN expr:e SEMICOLON
-         {: RESULT = new DeclStmt(id, e, loc(idleft, idright)); :}
+stmt ::= varDecl:var ASSIGN expr:e SEMICOLON
+         {: RESULT = new DeclStmt(var, e, loc(varleft, varright)); :}
       |  IF LPAREN cond:c RPAREN stmt:s
          {: RESULT = new IfStmt(c, s, null, loc(cleft, cright)); :}
       |  IF LPAREN cond:c RPAREN stmt:s1 ELSE stmt:s2

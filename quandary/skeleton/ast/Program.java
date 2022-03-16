@@ -27,7 +27,7 @@ public class Program extends ASTNode {
 
         //get arg for main, and put into environment
         //String argName = main.parameters.paramName;
-        mainEnv.put(main.parameters.paramName, argument);
+        mainEnv.put(main.parameters.getName(), argument);
 
         return main.execBody(mainEnv);
 

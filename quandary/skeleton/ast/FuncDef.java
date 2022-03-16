@@ -4,19 +4,19 @@ import java.util.HashMap;
 
 public class FuncDef extends ASTNode {
 
-    String funcName;
+    final VarDecl varDecl;
     FormalDeclList parameters;
     StmtList stmtList;
 
-    public FuncDef(String funcName, FormalDeclList parameters, StmtList stmtList, Location loc) {
+    public FuncDef(VarDecl varDecl, FormalDeclList parameters, StmtList stmtList, Location loc) {
         super(loc);
-        this.funcName = funcName;
+        this.varDecl = varDecl;
         this.parameters = parameters;
         this.stmtList = stmtList;
     }
 
     public String getName() {
-        return funcName;
+        return varDecl.getName();
     }
 
     public FormalDeclList getDeclList() {

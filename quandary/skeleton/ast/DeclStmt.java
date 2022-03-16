@@ -4,18 +4,18 @@ import java.util.HashMap;
 
 public class DeclStmt extends Stmt {
 
-    final String varName;
+    final VarDecl varDecl;
     final Expr expr;
 
-    public DeclStmt(String varName, Expr expr, Location loc) {
+    public DeclStmt(VarDecl varDecl, Expr expr, Location loc) {
         super(loc);
-        this.varName = varName;
+        this.varDecl = varDecl;
         this.expr = expr;
     }
 
     @Override
     Long exec(HashMap<String, Long> env) {
-        env.put(varName, expr.eval(env));
+        env.put(varDecl.getName(), expr.eval(env));
         return null;
     }
 
