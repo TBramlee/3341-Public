@@ -1,8 +1,6 @@
 int main(int arg) {
     
-    return foo(0);
-}
+    mutable Ref x = arg;
 
-int foo(int n) {
-    return 5;
+    return arg + 1;
 }

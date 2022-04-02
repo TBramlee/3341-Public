@@ -28,7 +28,7 @@ parser code {:
 :};
 
 terminal PLUS, MINUS, LPAREN, RPAREN, TIMES, NEGATE, RETURN, SEMICOLON,
-         LCURLY, RCURLY, INT, NIL, ASSIGN, PRINT, COMMA;
+         LCURLY, RCURLY, INT, REF, Q, NIL, ASSIGN, PRINT, COMMA, MUTABLE, DOT;
 
 /* conditional terminals */
 terminal EQ, GE, GT, LE, LT, 
@@ -76,7 +76,13 @@ funcDef ::= varDecl:var LPAREN formalDeclList:fdList RPAREN LCURLY stmtList:sl R
          ;
 
 varDecl ::= INT IDENT:id
-            {: RESULT = new VarDecl(id, loc(idleft, idright)); :}  
+            {: RESULT = new VarDecl(VarDecl.INT, id, loc(idleft, idright)); :}  
+        |   REF IDENT:id
+            {: RESULT = new VarDecl(VarDecl.REF, id, loc(idleft, idright)); :}  
+        |   Q IDENT:id
+            {: RESULT = new VarDecl(VarDecl.Q, id, loc(idleft, idright)); :}  
+        |   MUTABLE varDecl: var
+            {: RESULT = var; :}  
             ;
 
 formalDeclList ::= neFormalDeclList:formalList
@@ -99,14 +105,28 @@ stmtList ::= stmt:s stmtList:sl
 
 stmt ::= varDecl:var ASSIGN expr:e SEMICOLON
          {: RESULT = new DeclStmt(var, e, loc(varleft, varright)); :}
+
+      |  IDENT:id ASSIGN expr:e SEMICOLON
+         {: RESULT = new UpdateStmt(id, e, loc(cleft, cright)); :}
+
       |  IF LPAREN cond:c RPAREN stmt:s
          {: RESULT = new IfStmt(c, s, null, loc(cleft, cright)); :}
+
       |  IF LPAREN cond:c RPAREN stmt:s1 ELSE stmt:s2
          {: RESULT = new IfStmt(c, s1, s2, loc(cleft, cright)); :}
+
+      |  WHILE LPAREN cond:c RPAREN stmt:s1
+         {: RESULT = new WhileStmt(c, s1, loc(idleft, idright)); :}
+
+      |  IDENT:id LPAREN exprList:eList RPAREN
+         {: RESULT = new CallExpr(id, eList, loc(idleft, idright)); :}
+
       |  PRINT expr:e SEMICOLON
          {:RESULT = new PrintStmt(e, loc(eleft, eright)); :}
+
       |  RETURN expr:e SEMICOLON
          {:RESULT = new ReturnStmt(e, loc(eleft, eright)); :}
+
       |  LCURLY stmtList:sl RCURLY
          {:RESULT = sl; :}
       ;
@@ -124,7 +144,10 @@ neExprList ::= expr:e COMMA neExprList:eList
                {: RESULT = new ExprList(e, null, loc(eleft, eright)); :} 
            ;
 
-expr ::= INTCONST:c
+expr ::= NIL
+         {: RESULT = new NilExpr(loc(cleft, cright)); :}
+
+      |  INTCONST:c
          {: RESULT = new ConstExpr(c, loc(cleft, cright)); :}
 
       |   IDENT:id
@@ -135,6 +158,10 @@ expr ::= INTCONST:c
 
       |  MINUS expr:e
          {: RESULT = new UnaryMinusExpr(e, loc(eleft, eright)); :}
+         %prec NEGATE
+
+      |  LPAREN type:t RPAREN expr:e
+         {: RESULT = new CastExpr(t, e, loc(eleft, eright)); :}
          %prec NEGATE
 
       |  LPAREN expr:e RPAREN
@@ -152,6 +179,9 @@ binaryExpr ::= expr:e1 PLUS expr:e2
 
             |  expr:e1 TIMES expr:e2
                {: RESULT = new BinaryExpr(e1, BinaryExpr.TIMES, e2, loc(e1left, e1right)); :}
+
+            |  expr:e1 DOT expr:e2
+               {: RESULT = new BinaryExpr(e1, BinaryExpr.DOT, e2, loc(e1left, e1right)); :}
             ;
 
 cond ::= expr:e1 LE expr:e2

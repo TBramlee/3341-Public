@@ -71,9 +71,11 @@ white_space = {new_line} | [ \t\f]
 "}"               { return symbol("{", RCURLY); }
 "*"               { return symbol("*",  TIMES); }
 "return"          { return symbol("return",  RETURN); }
-"print"          { return symbol("print",  PRINT); }
+"print"           { return symbol("print",  PRINT); }
 ";"               { return symbol(";",  SEMICOLON); }
 "int"             { return symbol("int",  INT); }
+"Ref"             { return symbol("REf",  REF); }
+"Q"               { return symbol("Q",  Q); }
 "="               { return symbol("=",  ASSIGN); }
 ","               { return symbol(",",  COMMA); }
 
@@ -90,7 +92,8 @@ white_space = {new_line} | [ \t\f]
 
 //keywords
 "if"               { return symbol("if",  IF); }
-"else"               { return symbol("else",  ELSE); }
+"else"             { return symbol("else",  ELSE); }
+"mutable"          { return symbol("mutable",  MUTABLE); }
 
 
 /* identifiers */

@@ -2,13 +2,18 @@ package ast;
 
 public class VarDecl extends ASTNode {
 
-    final String varType;
+    final int type;
     final String varName;
 
-    public VarDecl(String varName, Location loc) {
+    public static final int INT = 1;
+    public static final int REF = 2;
+    public static final int Q = 3;
+
+
+    public VarDecl(int type, String varName, Location loc) {
         super(loc);
-        this.varType = "int";
         this.varName = varName;
+        this.type = type;
     }
 
     public String getName() {
@@ -16,7 +21,12 @@ public class VarDecl extends ASTNode {
     }
 
     public String getType() {
-        return varType;
+        switch (type) {
+            case INT:  return "int";
+            case REF: return "Ref";
+            case Q: return "Q";
+        }
+        throw new RuntimeException("Unexpected in VarDecl.getType()");
     }
     
 

@@ -7,6 +7,7 @@ public class BinaryExpr extends Expr {
     public static final int PLUS = 1;
     public static final int MINUS = 2;
     public static final int TIMES = 3;
+    public static final int DOT = 4;
 
     final Expr expr1;
     final int operator;
