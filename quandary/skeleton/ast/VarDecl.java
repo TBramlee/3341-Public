@@ -2,7 +2,7 @@ package ast;
 
 public class VarDecl extends ASTNode {
 
-    final int type;
+    final Type type;
     final String varName;
 
     public static final int INT = 1;
@@ -10,7 +10,7 @@ public class VarDecl extends ASTNode {
     public static final int Q = 3;
 
 
-    public VarDecl(int type, String varName, Location loc) {
+    public VarDecl(Type type, String varName, Location loc) {
         super(loc);
         this.varName = varName;
         this.type = type;
@@ -21,7 +21,7 @@ public class VarDecl extends ASTNode {
     }
 
     public String getType() {
-        switch (type) {
+        switch (type.type) {
             case INT:  return "int";
             case REF: return "Ref";
             case Q: return "Q";

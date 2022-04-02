@@ -28,11 +28,11 @@ parser code {:
 :};
 
 terminal PLUS, MINUS, LPAREN, RPAREN, TIMES, NEGATE, RETURN, SEMICOLON,
-         LCURLY, RCURLY, INT, REF, Q, NIL, ASSIGN, PRINT, COMMA, MUTABLE, DOT;
+         LCURLY, RCURLY, NIL, ASSIGN, PRINT, COMMA, MUTABLE, DOT, INT, REF, Q;
 
 /* conditional terminals */
 terminal EQ, GE, GT, LE, LT, 
-         NE, NOT, AND, OR, IF, ELSE;
+         NE, NOT, AND, OR, IF, ELSE, WHILE;
 terminal Long    INTCONST;
 terminal String  IDENT;
 
@@ -47,10 +47,13 @@ non terminal FuncDef         funcDef;
 non terminal FuncDefList     funcDefList;
 non terminal ExprList        exprList, neExprList;
 non terminal VarDecl         varDecl;
+non terminal Type            type;
 
+precedence left DOT;
 precedence left PLUS, MINUS;
 precedence left TIMES;
 precedence left NEGATE;
+
 
 precedence left ELSE;
 
@@ -58,6 +61,7 @@ precedence left AND, OR;
 precedence left NOT;
 
 precedence left LE, GE, GT, LT, EQ, NE;
+
 
 start with program;
 
@@ -75,15 +79,20 @@ funcDef ::= varDecl:var LPAREN formalDeclList:fdList RPAREN LCURLY stmtList:sl R
             {: RESULT = new FuncDef(var, fdList, sl, loc(varleft, varright)); :}
          ;
 
-varDecl ::= INT IDENT:id
-            {: RESULT = new VarDecl(VarDecl.INT, id, loc(idleft, idright)); :}  
-        |   REF IDENT:id
-            {: RESULT = new VarDecl(VarDecl.REF, id, loc(idleft, idright)); :}  
-        |   Q IDENT:id
-            {: RESULT = new VarDecl(VarDecl.Q, id, loc(idleft, idright)); :}  
-        |   MUTABLE varDecl: var
-            {: RESULT = var; :}  
-            ;
+varDecl ::= type:t IDENT:id
+            {: RESULT = new VarDecl(t, id, loc(idleft, idright)); :}  
+        |   MUTABLE type:t IDENT:id
+            {: RESULT = new VarDecl(t, id, loc(idleft, idright)); :} 
+         ;
+
+type ::= INT:e
+         {: RESULT = new Type(Type.INT, loc(eleft, eright)); :}  
+      |  REF:e
+         {: RESULT = new Type(Type.REF, loc(eleft, eright)); :}  
+      |  Q:e
+         {: RESULT = new Type(Type.Q, loc(eleft, eright)); :} 
+
+      ;
 
 formalDeclList ::= neFormalDeclList:formalList
                    {: RESULT = formalList; :}
@@ -107,7 +116,7 @@ stmt ::= varDecl:var ASSIGN expr:e SEMICOLON
          {: RESULT = new DeclStmt(var, e, loc(varleft, varright)); :}
 
       |  IDENT:id ASSIGN expr:e SEMICOLON
-         {: RESULT = new UpdateStmt(id, e, loc(cleft, cright)); :}
+         {: RESULT = new UpdateStmt(id, e, loc(idleft, idright)); :}
 
       |  IF LPAREN cond:c RPAREN stmt:s
          {: RESULT = new IfStmt(c, s, null, loc(cleft, cright)); :}
@@ -116,10 +125,10 @@ stmt ::= varDecl:var ASSIGN expr:e SEMICOLON
          {: RESULT = new IfStmt(c, s1, s2, loc(cleft, cright)); :}
 
       |  WHILE LPAREN cond:c RPAREN stmt:s1
-         {: RESULT = new WhileStmt(c, s1, loc(idleft, idright)); :}
+         {: RESULT = new WhileStmt(c, s1, loc(cleft, cright)); :}
 
-      |  IDENT:id LPAREN exprList:eList RPAREN
-         {: RESULT = new CallExpr(id, eList, loc(idleft, idright)); :}
+      |  IDENT:id LPAREN exprList:eList RPAREN SEMICOLON
+         {: RESULT = new CallStmt(id, eList, loc(idleft, idright)); :}
 
       |  PRINT expr:e SEMICOLON
          {:RESULT = new PrintStmt(e, loc(eleft, eright)); :}
@@ -144,13 +153,13 @@ neExprList ::= expr:e COMMA neExprList:eList
                {: RESULT = new ExprList(e, null, loc(eleft, eright)); :} 
            ;
 
-expr ::= NIL
-         {: RESULT = new NilExpr(loc(cleft, cright)); :}
+expr ::= NIL:n
+         {: RESULT = new NilExpr(loc(nleft, nright)); :}
 
       |  INTCONST:c
          {: RESULT = new ConstExpr(c, loc(cleft, cright)); :}
 
-      |   IDENT:id
+      |  IDENT:id
          {: RESULT = new IdentExpr(id, loc(idleft, idright)); :}
 
       |  binaryExpr:e

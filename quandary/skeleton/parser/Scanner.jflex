@@ -70,6 +70,7 @@ white_space = {new_line} | [ \t\f]
 "{"               { return symbol("{", LCURLY); }
 "}"               { return symbol("{", RCURLY); }
 "*"               { return symbol("*",  TIMES); }
+"."               { return symbol(".",  DOT); }
 "return"          { return symbol("return",  RETURN); }
 "print"           { return symbol("print",  PRINT); }
 ";"               { return symbol(";",  SEMICOLON); }
@@ -93,6 +94,7 @@ white_space = {new_line} | [ \t\f]
 //keywords
 "if"               { return symbol("if",  IF); }
 "else"             { return symbol("else",  ELSE); }
+"while"            { return symbol("while",  WHILE); }
 "mutable"          { return symbol("mutable",  MUTABLE); }
 
 
