@@ -16,7 +16,7 @@ public class FormalDeclList extends ASTNode{
 
     }
 
-    void fillNameList(List<String> names, HashMap<String, Long> env) {
+    void fillNameList(List<String> names, HashMap<String, QVal> env) {
 
         //TO-DO: get rid of null check
         if (varDecl != null) {

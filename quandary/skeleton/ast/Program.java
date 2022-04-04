@@ -18,16 +18,18 @@ public class Program extends ASTNode {
 
     public Object exec(long argument) {
 
+        QIntVal newArg = new QIntVal(argument);
+
         //Fill HashMap of function names to FuncDefinitions
         funcDefList.fillList();
 
         //create main env, and pass to main FuncDef
-        HashMap<String, Long> mainEnv = new HashMap<String, Long>();
+        HashMap<String, QVal> mainEnv = new HashMap<String, QVal>();
         FuncDef main = funcDefMap.get("main");
 
         //get arg for main, and put into environment
         //String argName = main.parameters.paramName;
-        mainEnv.put(main.parameters.getName(), argument);
+        mainEnv.put(main.parameters.getName(), newArg);
 
         return main.execBody(mainEnv);
 

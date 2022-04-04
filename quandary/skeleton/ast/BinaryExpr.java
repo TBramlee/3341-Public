@@ -37,20 +37,24 @@ public class BinaryExpr extends Expr {
     }
 
     @Override
-    Long eval(HashMap<String, Long> env) {
+    QVal eval(HashMap<String, QVal> env) {
         if (expr2!= null) {
             return doOperation(expr1.eval(env), operator, expr2.eval(env));
         }
-        return (long)expr1.eval(env);
+        return expr1.eval(env);
        
     }
 
-    static Long doOperation(Object value1, int operator, Object value2) {
+    static QVal doOperation(QVal obj1, int operator, QVal obj2) {
+
+        long value1 = ((QIntVal)obj1).value;
+        long value2 = ((QIntVal)obj2).value;
+
         switch (operator) {
-            case PLUS:  return (long)value1 + (long)value2;
-            case MINUS: return (long)value1 - (long)value2;
-            case TIMES: return (long)value1 * (long)value2;
-            case DOT:   return null;
+            case PLUS:  return new QIntVal(value1+value2);
+            case MINUS: return new QIntVal(value1-value2);
+            case TIMES: return new QIntVal(value1*value2);
+            case DOT:   return new QRefVal(new QObj(obj1, obj2));
         }
         throw new RuntimeException("Unexpected in BinaryExpr.doOperation");
     }
