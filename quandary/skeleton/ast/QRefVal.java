@@ -1,10 +1,7 @@
 package ast;
 
-public abstract class ASTNode {
+public class QRefVal extends QVal {
 
-    final Location loc;
+    QObj value;
 
-    ASTNode(Location loc) {
-        this.loc = loc;
-    }
 }

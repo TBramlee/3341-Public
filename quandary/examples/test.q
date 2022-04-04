@@ -1,6 +1,10 @@
 int main(int arg) {
     
-    mutable Ref x = arg;
+    while (arg == 0) {
+        int y = 7;
+        return y;
+    }
+
 
     return arg;
 }
