@@ -50,6 +50,7 @@ public class BinaryExpr extends Expr {
             case PLUS:  return (long)value1 + (long)value2;
             case MINUS: return (long)value1 - (long)value2;
             case TIMES: return (long)value1 * (long)value2;
+            case DOT:   return null;
         }
         throw new RuntimeException("Unexpected in BinaryExpr.doOperation");
     }

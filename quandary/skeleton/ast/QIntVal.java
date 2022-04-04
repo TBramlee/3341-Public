@@ -2,6 +2,15 @@ package ast;
 
 public class QIntVal extends QVal {
 
-    long value;
+    public long value;
+
+    public QIntVal(long value) {
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return Long.toString(value);
+    }
 
 }
