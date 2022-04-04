@@ -7,5 +7,5 @@ public abstract class Stmt extends ASTNode {
         super(loc);
     }
 
-    abstract Long exec(HashMap<String, QVal> env);
+    abstract QVal exec(HashMap<String, QVal> env);
 }

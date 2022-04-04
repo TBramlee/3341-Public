@@ -16,7 +16,7 @@ public class IfStmt extends Stmt {
     }
 
     @Override
-    Long exec(HashMap<String, QVal> env) {
+    QVal exec(HashMap<String, QVal> env) {
         if (c.eval(env)) {
             return s1.exec(env);
         }

@@ -16,13 +16,13 @@ public class CallExpr extends Expr {
 
     //Evaluates call to function. Creates local environment for function and populates it with parameters.
     @Override
-    Long eval(HashMap<String, Long> env) {
+    QVal eval(HashMap<String, QVal> env) {
 
         //create environment for function
-        HashMap<String, Long> localEnv = new HashMap<String, Long>();
+        HashMap<String, QVal> localEnv = new HashMap<String, QVal>();
 
         //create lists of param names and values
-        List<Long> values = new ArrayList<Long>();
+        List<QVal> values = new ArrayList<QVal>();
         List<String> names = new ArrayList<String>();
 
         //check for built in function
@@ -30,10 +30,11 @@ public class CallExpr extends Expr {
             Random rand = new Random();
 
             eList.fillValueList(values, env);
-            Long val = values.get(0);
+            QVal obj = values.get(0);
+            Long val = ((QIntVal)obj).value;
 
             int retval = rand.nextInt(val.intValue());
-            return new Long(retval);
+            return new QIntVal(new Long(retval));
         }
 
         //Find function in Program.funcDefList

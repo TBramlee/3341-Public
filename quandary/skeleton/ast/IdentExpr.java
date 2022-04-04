@@ -12,7 +12,7 @@ public class IdentExpr extends Expr {
     }
 
     @Override
-    Long eval(HashMap<String, Long> env) {
+    QVal eval(HashMap<String, QVal> env) {
         return env.get(varName);
     }
 }

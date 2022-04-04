@@ -8,5 +8,5 @@ public abstract class Cond extends ASTNode {
         super(loc);
     }
 
-    abstract boolean eval(HashMap<String, Long> env);
+    abstract boolean eval(HashMap<String, QVal> env);
 }

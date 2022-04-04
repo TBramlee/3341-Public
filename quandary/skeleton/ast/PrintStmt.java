@@ -12,7 +12,7 @@ public class PrintStmt extends Stmt {
     }
 
     @Override
-    Long exec(HashMap<String, Long> env) {
+    QVal exec(HashMap<String, QVal> env) {
         
         System.out.println(e.eval(env));
         return null;

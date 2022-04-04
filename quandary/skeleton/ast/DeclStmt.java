@@ -14,7 +14,7 @@ public class DeclStmt extends Stmt {
     }
 
     @Override
-    Long exec(HashMap<String, Long> env) {
+    QVal exec(HashMap<String, QVal> env) {
         env.put(varDecl.getName(), expr.eval(env));
         return null;
     }

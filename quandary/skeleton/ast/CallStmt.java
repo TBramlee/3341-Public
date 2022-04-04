@@ -16,7 +16,7 @@ public class CallStmt extends Stmt {
 
     //Evaluates call to function. Creates local environment for function and populates it with parameters.
     @Override
-    Long exec(HashMap<String, QVal> env) {
+    QVal exec(HashMap<String, QVal> env) {
 
         //create environment for function
         HashMap<String, QVal> localEnv = new HashMap<String, QVal>();
@@ -34,7 +34,7 @@ public class CallStmt extends Stmt {
             Long val = ((QIntVal)obj).value;
 
             int retval = rand.nextInt(val.intValue());
-            return new Long(retval);
+            return new QIntVal(new Long(retval));
         }
 
         //Find function in Program.funcDefList

@@ -14,11 +14,11 @@ public class CastExpr extends Expr {
     }
 
     @Override
-    Long eval(HashMap<String, Long> env) {
+    QVal eval(HashMap<String, QVal> env) {
         switch(type.type) {
-            case Type.INT: return null;
-            case Type.REF: return null;
-            case Type.Q: return null;
+            case Type.INT: return (QIntVal)expr.eval(env);
+            case Type.REF: return (QRefVal)expr.eval(env);
+            case Type.Q: return (QVal)expr.eval(env);
         }
         throw new RuntimeException("Unexpected in CastExpr.eval()");
     }

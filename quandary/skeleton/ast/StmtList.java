@@ -14,8 +14,8 @@ public class StmtList extends Stmt {
     }
 
     @Override
-    Long exec(HashMap<String, QVal> env) {
-        Long retVal = first.exec(env);
+    QVal exec(HashMap<String, QVal> env) {
+        QVal retVal = first.exec(env);
         if(retVal != null) {
             return retVal;
         }    

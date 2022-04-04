@@ -7,6 +7,7 @@ Ref create(int length) {
   if (length == 0) {
     return nil;
   }
+  print(length);
   return length . create(length - 1);
 }
 

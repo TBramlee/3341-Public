@@ -14,7 +14,7 @@ public class WhileStmt extends Stmt {
     }
 
     @Override
-    Long exec(HashMap<String, Long> env) {
+    QVal exec(HashMap<String, QVal> env) {
         while (c.eval(env)) {
             return s.exec(env);
         }

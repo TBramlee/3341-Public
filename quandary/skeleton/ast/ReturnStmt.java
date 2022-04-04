@@ -12,7 +12,7 @@ public class ReturnStmt extends Stmt {
     }
 
     @Override
-    Long exec(HashMap<String, Long> env) {
+    QVal exec(HashMap<String, QVal> env) {
         
         return e.eval(env);
     }
