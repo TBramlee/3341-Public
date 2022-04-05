@@ -16,7 +16,10 @@ public class WhileStmt extends Stmt {
     @Override
     QVal exec(HashMap<String, QVal> env) {
         while (c.eval(env)) {
-            return s.exec(env);
+            QVal val = s.exec(env);
+            if (val == null) {
+                return new QIntVal(1);
+            }
         }
         return null;
     }

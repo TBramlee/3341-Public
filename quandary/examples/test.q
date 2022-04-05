@@ -1,11 +1,7 @@
 int main(int arg) {
     
-    mutable int x = 0;
-
-    while (x < 5) {
-        print(x);
-        int y = x;
-        x = y + 1;
-    }
-    return x;
+    mutable Ref list = 1 . 1;
+    print(list);
+    setRight(list, 5);
+    return list;
 }

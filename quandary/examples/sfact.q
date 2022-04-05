@@ -15,6 +15,7 @@ int factI(int n) {
   mutable int i = 2;
   while (i <= n) {
     result = result * i;
+    print(result);
     i = i + 1;
   }
   return result;
