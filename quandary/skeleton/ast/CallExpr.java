@@ -45,6 +45,8 @@ public class CallExpr extends Expr {
             case "right": return right(env, values);
             case "isAtom": return isAtom(env, values);
             case "isNil": return isNil(env, values);
+            case "setLeft": return setLeft(env, values);
+            case "setRight": return setRight(env, values);
         }
 
         //Find function in Program.funcDefList
@@ -141,6 +143,39 @@ public class CallExpr extends Expr {
         }
 
         return new QIntVal(0);
+    }
+
+    QVal setLeft(HashMap<String, QVal> env, List<QVal> values) {
+
+        eList.fillValueList(values, env);
+        QRefVal ref = (QRefVal)values.get(0);
+        QVal val = values.get(1);
+        
+        if(ref.value != null) {
+            ref.value.left = val;
+        }
+        else {
+            ref.value = new QObj(val, null);
+        }
+
+        return new QIntVal(1);
+    }
+
+    QVal setRight(HashMap<String, QVal> env, List<QVal> values) {
+
+        eList.fillValueList(values, env);
+        QRefVal ref = (QRefVal)values.get(0);
+        QVal val = values.get(1);
+        
+        if(ref.value != null) {
+            ref.value.right = val;
+        }
+        else {
+            ref.value = new QObj(null, val);
+        }
+        
+
+        return new QIntVal(1);
     }
 
 }

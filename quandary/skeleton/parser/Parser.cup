@@ -51,6 +51,7 @@ non terminal Type            type;
 
 precedence left AND, OR;
 precedence left NOT;
+precedence left LE, GE, GT, LT, EQ, NE;
 precedence left DOT;
 precedence left PLUS, MINUS;
 precedence left TIMES;
@@ -59,10 +60,7 @@ precedence left NEGATE;
 
 precedence left ELSE;
 
-precedence left AND, OR;
-precedence left NOT;
 
-precedence left LE, GE, GT, LT, EQ, NE;
 
 
 start with program;
