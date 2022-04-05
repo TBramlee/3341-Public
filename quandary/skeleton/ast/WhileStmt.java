@@ -17,7 +17,7 @@ public class WhileStmt extends Stmt {
     QVal exec(HashMap<String, QVal> env) {
         while (c.eval(env)) {
             QVal val = s.exec(env);
-            if (val == null) {
+            if (env.containsKey("return")) {
                 return new QIntVal(1);
             }
         }

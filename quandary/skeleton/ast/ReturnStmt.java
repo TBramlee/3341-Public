@@ -13,7 +13,7 @@ public class ReturnStmt extends Stmt {
 
     @Override
     QVal exec(HashMap<String, QVal> env) {
-        
+        env.put("return", new QRefVal(null));
         return e.eval(env);
     }
 

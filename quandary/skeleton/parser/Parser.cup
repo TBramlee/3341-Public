@@ -49,6 +49,8 @@ non terminal ExprList        exprList, neExprList;
 non terminal VarDecl         varDecl;
 non terminal Type            type;
 
+precedence left AND, OR;
+precedence left NOT;
 precedence left DOT;
 precedence left PLUS, MINUS;
 precedence left TIMES;
