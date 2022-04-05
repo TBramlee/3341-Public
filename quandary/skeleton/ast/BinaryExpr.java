@@ -47,9 +47,14 @@ public class BinaryExpr extends Expr {
 
     static QVal doOperation(QVal obj1, int operator, QVal obj2) {
 
-        long value1 = ((QIntVal)obj1).value;
-        long value2 = ((QIntVal)obj2).value;
+        long value1 = 0;
+        long value2 = 0;
 
+        if (operator != BinaryExpr.DOT) {
+            value1 = ((QIntVal)obj1).value;
+            value2 = ((QIntVal)obj2).value;
+        }
+        
         switch (operator) {
             case PLUS:  return new QIntVal(value1+value2);
             case MINUS: return new QIntVal(value1-value2);

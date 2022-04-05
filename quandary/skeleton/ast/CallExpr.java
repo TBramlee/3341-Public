@@ -25,7 +25,7 @@ public class CallExpr extends Expr {
         List<QVal> values = new ArrayList<QVal>();
         List<String> names = new ArrayList<String>();
 
-        //check for built in function
+        /*
         if (funcName.equals("randomInt")) {
             Random rand = new Random();
 
@@ -35,6 +35,16 @@ public class CallExpr extends Expr {
 
             int retval = rand.nextInt(val.intValue());
             return new QIntVal(new Long(retval));
+        }
+        */
+
+        //check for built-in functions (non-mutable)
+        switch (funcName) {
+            case "randomInt": return randomInt(env, values);
+            case "left": return left(env, values);
+            case "right": return right(env, values);
+            case "isAtom": return isAtom(env, values);
+            case "isNil": return isNil(env, values);
         }
 
         //Find function in Program.funcDefList
@@ -60,5 +70,77 @@ public class CallExpr extends Expr {
         return function.execBody(localEnv);
     }
 
+    /*
+    Non-mutable built in functions for quandary
+    -randomInt
+    -left
+    -right
+    -isAtom
+    -isNil
+    */
+
+    QVal randomInt(HashMap<String, QVal> env, List<QVal> values) {
+        Random rand = new Random();
+
+        eList.fillValueList(values, env);
+        QVal obj = values.get(0);
+        Long val = ((QIntVal)obj).value;
+
+        int retval = rand.nextInt(val.intValue());
+        return new QIntVal(new Long(retval));
+    }
+
+    QVal left(HashMap<String, QVal> env, List<QVal> values) {
+
+        eList.fillValueList(values, env);
+        QVal obj = values.get(0);
+        QRefVal ref = (QRefVal)obj;
+        return ref.value.left;
+    }
+
+    QVal right(HashMap<String, QVal> env, List<QVal> values) {
+
+        eList.fillValueList(values, env);
+        QVal obj = values.get(0);
+        QRefVal ref = (QRefVal)obj;
+        return ref.value.right;
+    }
+
+    QVal isAtom(HashMap<String, QVal> env, List<QVal> values) {
+
+        eList.fillValueList(values, env);
+        QVal obj = values.get(0);
+        
+        QRefVal ref = null;
+
+        if (obj instanceof QIntVal) {
+            return new QIntVal(1);
+        }
+        else if (obj instanceof QRefVal){
+            ref = (QRefVal)obj;
+            if(ref.value == null) {
+                return new QIntVal(0);
+            }
+        }
+
+        return new QIntVal(0);
+    }
+
+    QVal isNil(HashMap<String, QVal> env, List<QVal> values) {
+
+        eList.fillValueList(values, env);
+        QVal obj = values.get(0);
+        
+        QRefVal ref = null;
+
+        if (obj instanceof QRefVal){
+            ref = (QRefVal)obj;
+            if(ref.value == null) {
+                return new QIntVal(1);
+            }
+        }
+
+        return new QIntVal(0);
+    }
 
 }

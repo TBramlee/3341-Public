@@ -1,10 +1,11 @@
 int main(int arg) {
     
-    while (arg == 0) {
-        int y = 7;
-        return y;
+    mutable int x = 0;
+
+    while (x < 5) {
+        print(x);
+        int y = x;
+        x = y + 1;
     }
-
-
-    return arg;
+    return x;
 }

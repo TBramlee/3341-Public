@@ -10,6 +10,9 @@ public class QRefVal extends QVal {
 
     @Override
     public String toString() {
+        if(value == null) {
+            return "nil";
+        }
         return value.toString();
     }
 

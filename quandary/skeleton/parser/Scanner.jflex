@@ -96,6 +96,7 @@ white_space = {new_line} | [ \t\f]
 "else"             { return symbol("else",  ELSE); }
 "while"            { return symbol("while",  WHILE); }
 "mutable"          { return symbol("mutable",  MUTABLE); }
+"nil"              { return symbol("nil",  NIL); }
 
 
 /* identifiers */
