@@ -15,4 +15,9 @@ public class IdentExpr extends Expr {
     QVal eval(HashMap<String, QVal> env) {
         return env.get(varName);
     }
+
+    @Override
+    public String toString() {
+        return varName;
+    }
 }

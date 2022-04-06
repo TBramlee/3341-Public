@@ -20,4 +20,9 @@ public class UpdateStmt extends Stmt {
         return null;
     }
 
+    @Override
+    public String toString() {
+        return varName +  "=" + expr.toString();
+    }
+
 }

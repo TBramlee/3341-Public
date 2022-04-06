@@ -13,6 +13,11 @@ public class CallExpr extends Expr {
         this.eList = eList;
     }
 
+    @Override
+    public String toString() {
+        return funcName + eList.toString();
+    }
+
 
     //Evaluates call to function. Creates local environment for function and populates it with parameters.
     @Override
@@ -121,7 +126,7 @@ public class CallExpr extends Expr {
         else if (obj instanceof QRefVal){
             ref = (QRefVal)obj;
             if(ref.value == null) {
-                return new QIntVal(0);
+                return new QIntVal(1);
             }
         }
 

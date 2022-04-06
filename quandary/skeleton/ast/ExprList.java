@@ -23,6 +23,14 @@ public class ExprList extends Expr {
         return eList.eval(env);
     }
 
+    @Override
+    public String toString(){
+        if(eList != null) {
+            return expr.toString() + " ," + eList.toString();
+        }
+       return expr.toString();
+    }
+
     void fillValueList(List<QVal> values, HashMap<String, QVal> env) {
 
         if(expr!= null) {
