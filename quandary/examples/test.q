@@ -1,7 +1,12 @@
-int main(int arg) {
-    
-    mutable Ref list = 1 . 1;
-    print(list);
-    setRight(list, 5);
-    return list;
+Q main(int arg) {
+    mutable int n = arg;
+    while (n >= 0) {
+        print(replicate(n));
+        n = n - 1;
+    }
+    return nil;
+}
+
+int replicate(int n) {
+    return n;
 }

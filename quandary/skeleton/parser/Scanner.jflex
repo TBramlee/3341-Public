@@ -68,7 +68,9 @@ white_space = {new_line} | [ \t\f]
 "("               { return symbol("(",  LPAREN); }
 ")"               { return symbol(")",  RPAREN); }
 "{"               { return symbol("{", LCURLY); }
-"}"               { return symbol("{", RCURLY); }
+"}"               { return symbol("}", RCURLY); }
+"["               { return symbol("[", LBRAC); }
+"]"               { return symbol("]", RBRAC); }
 "*"               { return symbol("*",  TIMES); }
 "."               { return symbol(".",  DOT); }
 "return"          { return symbol("return",  RETURN); }

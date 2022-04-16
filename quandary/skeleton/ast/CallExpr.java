@@ -30,19 +30,6 @@ public class CallExpr extends Expr {
         List<QVal> values = new ArrayList<QVal>();
         List<String> names = new ArrayList<String>();
 
-        /*
-        if (funcName.equals("randomInt")) {
-            Random rand = new Random();
-
-            eList.fillValueList(values, env);
-            QVal obj = values.get(0);
-            Long val = ((QIntVal)obj).value;
-
-            int retval = rand.nextInt(val.intValue());
-            return new QIntVal(new Long(retval));
-        }
-        */
-
         //check for built-in functions (non-mutable)
         switch (funcName) {
             case "randomInt": return randomInt(env, values);
@@ -56,8 +43,6 @@ public class CallExpr extends Expr {
 
         //Find function in Program.funcDefList
         FuncDef function = Program.theProgram.funcDefMap.get(funcName);
-
-        
         
         if(eList != null) {
             //fill lists
@@ -71,10 +56,11 @@ public class CallExpr extends Expr {
 
             }
         }
-        
 
         //execute function body
-        return function.execBody(localEnv);
+        QVal returnVal = function.execBody(localEnv);
+        //System.out.println(function.varDecl.varName + ": ");
+        return  returnVal;
     }
 
     /*

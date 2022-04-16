@@ -3,10 +3,8 @@ int isPrime(int x) {
   mutable int i = 2;
   while (i < x) {
     if (divides(x, i) != 0) {
-        print(x);
         return 0;
     }
-      
     i = i + 1;
   }
   return 1;
@@ -19,12 +17,11 @@ Q main(int arg) {
     if (isPrime(n) != 0){
         list = n . list;
     }
-     
     n = n - 1;
   }
   return list;
 }
-e
+
 int divides(mutable int x, int y) {
   while (x > 0) {
     x = x - y;

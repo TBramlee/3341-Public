@@ -26,6 +26,9 @@ public class FuncDef extends ASTNode {
     //localEnv already has formal parameters and values
     public QVal execBody(HashMap<String, QVal> localEnv) {
         
-        return stmtList.exec(localEnv);
+        QVal returnVal = stmtList.exec(localEnv);
+        //System.out.println(varDecl.varName + ": " + returnVal);
+        
+        return returnVal;
     }
 }

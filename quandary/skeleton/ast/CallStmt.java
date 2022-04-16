@@ -25,20 +25,6 @@ public class CallStmt extends Stmt {
         List<QVal> values = new ArrayList<QVal>();
         List<String> names = new ArrayList<String>();
 
-        /*
-        //check for built in function
-        if (funcName.equals("randomInt")) {
-            Random rand = new Random();
-
-            eList.fillValueList(values, env);
-            QVal obj = values.get(0);
-            Long val = ((QIntVal)obj).value;
-
-            int retval = rand.nextInt(val.intValue());
-            return new QIntVal(new Long(retval));
-        }
-        */
-
         //check for built-in functions
         switch (funcName) {
             case "setLeft": setLeft(env, values); return null;
