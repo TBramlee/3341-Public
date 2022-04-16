@@ -8,5 +8,5 @@ public abstract class Expr extends ASTNode {
         super(loc);
     }
 
-    abstract Long eval(HashMap<String, Long> env);
+    abstract QVal eval(HashMap<String, QVal> env);
 }

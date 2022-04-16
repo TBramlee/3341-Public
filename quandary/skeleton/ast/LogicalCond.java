@@ -21,7 +21,7 @@ public class LogicalCond extends Cond {
     }
 
     @Override
-    boolean eval(HashMap<String, Long> env) {
+    boolean eval(HashMap<String, QVal> env) {
 
         switch (operator) {
             case AND: return c1.eval(env) && c2.eval(env);

@@ -22,8 +22,10 @@ public class UnaryMinusExpr extends Expr {
     }
 
     @Override
-    Long eval(HashMap<String, Long> env) {
-        return -(long)expr.eval(env);
+    QVal eval(HashMap<String, QVal> env) {
+        long val = ((QIntVal)expr.eval(env)).value;
+        return new QIntVal(-val);
+        //return -(long)expr.eval(env);
     }
 
 }

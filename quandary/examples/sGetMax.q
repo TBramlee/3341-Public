@@ -26,6 +26,7 @@ mutable Ref add(Ref list, Q elem) {
 
 int length(Ref c) {
   if (isAtom(c) != 0) return 0;
+  print(c);
   return 1 + length((Ref)right(c));
 }
 

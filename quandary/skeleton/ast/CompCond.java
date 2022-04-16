@@ -41,10 +41,13 @@ public class CompCond extends Cond {
     }
 
     @Override
-    boolean eval(HashMap<String, Long> env) {
+    boolean eval(HashMap<String, QVal> env) {
 
-        long leftSide = (long)expr1.eval(env);
-        long rightSide = (long)expr2.eval(env);
+        QIntVal leftObj = (QIntVal)expr1.eval(env);
+        QIntVal rightObj = (QIntVal)expr2.eval(env);
+
+        long leftSide = leftObj.value;
+        long rightSide = rightObj.value;
 
         switch (operator) {
             case LT: return leftSide < rightSide;

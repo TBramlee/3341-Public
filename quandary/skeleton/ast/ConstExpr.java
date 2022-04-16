@@ -17,7 +17,7 @@ public class ConstExpr extends Expr {
     }
 
     @Override
-    Long eval(HashMap<String, Long> env) {
-        return value;
+    QVal eval(HashMap<String, QVal> env) {
+        return new QIntVal(value);
     }
 }

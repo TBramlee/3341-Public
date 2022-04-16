@@ -12,9 +12,12 @@ public class ReturnStmt extends Stmt {
     }
 
     @Override
-    Long exec(HashMap<String, Long> env) {
-        
-        return e.eval(env);
+    QVal exec(HashMap<String, QVal> env) {
+        env.put("return", new QRefVal(null));
+        QVal returnVal = e.eval(env);
+        //System.out.println("returnVal = " + returnVal);
+
+        return returnVal;
     }
 
 }

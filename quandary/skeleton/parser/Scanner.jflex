@@ -50,7 +50,7 @@ import interpreter.Interpreter;
 
 IntLiteral = 0 | [1-9][0-9]*
 
-Identifier = [a-zA-Z][a-zA-Z0-9]*
+Identifier = [a-zA-Z_][a-zA-Z0-9_]*
 
 new_line = \r|\n|\r\n;
 
@@ -68,12 +68,17 @@ white_space = {new_line} | [ \t\f]
 "("               { return symbol("(",  LPAREN); }
 ")"               { return symbol(")",  RPAREN); }
 "{"               { return symbol("{", LCURLY); }
-"}"               { return symbol("{", RCURLY); }
+"}"               { return symbol("}", RCURLY); }
+"["               { return symbol("[", LBRAC); }
+"]"               { return symbol("]", RBRAC); }
 "*"               { return symbol("*",  TIMES); }
+"."               { return symbol(".",  DOT); }
 "return"          { return symbol("return",  RETURN); }
-"print"          { return symbol("print",  PRINT); }
+"print"           { return symbol("print",  PRINT); }
 ";"               { return symbol(";",  SEMICOLON); }
 "int"             { return symbol("int",  INT); }
+"Ref"             { return symbol("REf",  REF); }
+"Q"               { return symbol("Q",  Q); }
 "="               { return symbol("=",  ASSIGN); }
 ","               { return symbol(",",  COMMA); }
 
@@ -90,7 +95,10 @@ white_space = {new_line} | [ \t\f]
 
 //keywords
 "if"               { return symbol("if",  IF); }
-"else"               { return symbol("else",  ELSE); }
+"else"             { return symbol("else",  ELSE); }
+"while"            { return symbol("while",  WHILE); }
+"mutable"          { return symbol("mutable",  MUTABLE); }
+"nil"              { return symbol("nil",  NIL); }
 
 
 /* identifiers */

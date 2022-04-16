@@ -28,11 +28,11 @@ parser code {:
 :};
 
 terminal PLUS, MINUS, LPAREN, RPAREN, TIMES, NEGATE, RETURN, SEMICOLON,
-         LCURLY, RCURLY, INT, NIL, ASSIGN, PRINT, COMMA;
+         LCURLY, RCURLY, LBRAC, RBRAC, NIL, ASSIGN, PRINT, COMMA, MUTABLE, DOT, INT, REF, Q;
 
 /* conditional terminals */
 terminal EQ, GE, GT, LE, LT, 
-         NE, NOT, AND, OR, IF, ELSE;
+         NE, NOT, AND, OR, IF, ELSE, WHILE;
 terminal Long    INTCONST;
 terminal String  IDENT;
 
@@ -41,65 +41,159 @@ non terminal Expr            expr;
 non terminal BinaryExpr      binaryExpr;
 non terminal StmtList        stmtList; 
 non terminal Stmt            stmt;
-non terminal varDecl         varDecl;
 non terminal Cond            cond;
+non terminal FormalDeclList  formalDeclList, neFormalDeclList;
+non terminal FuncDef         funcDef;
+non terminal FuncDefList     funcDefList;
+non terminal ExprList        exprList, neExprList;
+non terminal VarDecl         varDecl;
+non terminal Type            type;
 
+precedence left AND, OR;
+precedence left NOT;
+precedence left LE, GE, GT, LT, EQ, NE;
+precedence left DOT;
 precedence left PLUS, MINUS;
 precedence left TIMES;
 precedence left NEGATE;
 
+
 precedence left ELSE;
 
-precedence left AND, OR;
-precedence left NOT;
 
-precedence left LE, GE, GT, LT, EQ, NE;
+
 
 start with program;
 
-program ::= INT IDENT LPAREN INT IDENT:arg RPAREN LCURLY stmtList:sl RCURLY
-         {: RESULT = new Program(arg, sl, loc(argleft, argright)); :}
+program ::= funcDefList:fdList
+         {: RESULT = new Program(fdList, loc(fdListleft, fdListright)); :}
          ;
+
+funcDefList ::= funcDef:fDef funcDefList:fdList
+                {: RESULT = new FuncDefList(fDef, fdList, loc(fDefleft, fDefright)); :}
+            |   /*null*/
+                {: RESULT = null; :}  
+            ;
+
+funcDef ::= varDecl:var LPAREN formalDeclList:fdList RPAREN LCURLY stmtList:sl RCURLY
+            {: RESULT = new FuncDef(var, fdList, sl, loc(varleft, varright)); :}
+         ;
+
+varDecl ::= type:t IDENT:id
+            {: RESULT = new VarDecl(t, id, loc(idleft, idright)); :}  
+        |   MUTABLE type:t IDENT:id
+            {: RESULT = new VarDecl(t, id, loc(idleft, idright)); :} 
+         ;
+
+type ::= INT:e
+         {: RESULT = new Type(Type.INT, loc(eleft, eright)); :}  
+      |  REF:e
+         {: RESULT = new Type(Type.REF, loc(eleft, eright)); :}  
+      |  Q:e
+         {: RESULT = new Type(Type.Q, loc(eleft, eright)); :} 
+
+      ;
+
+formalDeclList ::= neFormalDeclList:formalList
+                   {: RESULT = formalList; :}
+               |   /*null*/
+                   {: RESULT = null; :}  
+               ;
+
+neFormalDeclList ::= varDecl:var COMMA neFormalDeclList:formalList
+                     {: RESULT = new FormalDeclList(var, formalList, loc(varleft, varright)); :}
+                 |   varDecl:var
+                     {: RESULT = new FormalDeclList(var, null, loc(varleft, varright)); :}
+                 ;
 
 stmtList ::= stmt:s stmtList:sl
              {: RESULT = new StmtList(s, sl, loc(sleft, sright)); :}
-         |    /*string*/
+          |   /*string*/
              {: RESULT = null; :}  
-      ;
+          ;
 
-stmt ::= INT IDENT:id ASSIGN expr:e SEMICOLON
-         {: RESULT = new DeclStmt(id, e, loc(idleft, idright)); :}
+stmt ::= varDecl:var ASSIGN expr:e SEMICOLON
+         {: RESULT = new DeclStmt(var, e, loc(varleft, varright)); :}
+
+      |  IDENT:id ASSIGN expr:e SEMICOLON
+         {: RESULT = new UpdateStmt(id, e, loc(idleft, idright)); :}
+
       |  IF LPAREN cond:c RPAREN stmt:s
          {: RESULT = new IfStmt(c, s, null, loc(cleft, cright)); :}
+
       |  IF LPAREN cond:c RPAREN stmt:s1 ELSE stmt:s2
          {: RESULT = new IfStmt(c, s1, s2, loc(cleft, cright)); :}
+
+      |  WHILE LPAREN cond:c RPAREN stmt:s1
+         {: RESULT = new WhileStmt(c, s1, loc(cleft, cright)); :}
+
+      |  IDENT:id LPAREN exprList:eList RPAREN SEMICOLON
+         {: RESULT = new CallStmt(id, eList, loc(idleft, idright)); :}
+
       |  PRINT expr:e SEMICOLON
          {:RESULT = new PrintStmt(e, loc(eleft, eright)); :}
+
       |  RETURN expr:e SEMICOLON
          {:RESULT = new ReturnStmt(e, loc(eleft, eright)); :}
+
       |  LCURLY stmtList:sl RCURLY
          {:RESULT = sl; :}
       ;
 
-expr ::= INTCONST:c
+exprList ::= neExprList: eList
+             {: RESULT = eList; :}
+          |  /*null*/
+             {: RESULT = null; :}  
+         ;
+
+neExprList ::= expr:e COMMA neExprList:eList
+               {: RESULT = new ExprList(e, eList, loc(eleft, eright)); :} 
+
+            |  expr:e
+               {: RESULT = new ExprList(e, null, loc(eleft, eright)); :} 
+           ;
+
+expr ::= NIL:n
+         {: RESULT = new NilExpr(loc(nleft, nright)); :}
+
+      |  INTCONST:c
          {: RESULT = new ConstExpr(c, loc(cleft, cright)); :}
-      |   IDENT:id
+
+      |  IDENT:id
          {: RESULT = new IdentExpr(id, loc(idleft, idright)); :}
+
       |  binaryExpr:e
          {: RESULT = e; :}
+
       |  MINUS expr:e
          {: RESULT = new UnaryMinusExpr(e, loc(eleft, eright)); :}
          %prec NEGATE
+
+      |  LPAREN type:t RPAREN expr:e
+         {: RESULT = new CastExpr(t, e, loc(eleft, eright)); :}
+         %prec NEGATE
+
       |  LPAREN expr:e RPAREN
+         {: RESULT = e; :}
+
+      |  IDENT:id LPAREN exprList:eList RPAREN
+         {: RESULT = new CallExpr(id, eList, loc(idleft, idright)); :}
+
+      |  LBRAC binaryExpr:e RBRAC
          {: RESULT = e; :}
       ;
 
 binaryExpr ::= expr:e1 PLUS expr:e2
-               {: RESULT = new BinaryExpr(e1, BinaryExpr.PLUS, e2, loc(e1left, e1right)); :}
+               {: RESULT = new BinaryExpr(e1, BinaryExpr.PLUS, e2, false, loc(e1left, e1right)); :}
+
             |  expr:e1 MINUS expr:e2
-               {: RESULT = new BinaryExpr(e1, BinaryExpr.MINUS, e2, loc(e1left, e1right)); :}
+               {: RESULT = new BinaryExpr(e1, BinaryExpr.MINUS, e2, false, loc(e1left, e1right)); :}
+
             |  expr:e1 TIMES expr:e2
-               {: RESULT = new BinaryExpr(e1, BinaryExpr.TIMES, e2, loc(e1left, e1right)); :}
+               {: RESULT = new BinaryExpr(e1, BinaryExpr.TIMES, e2, false, loc(e1left, e1right)); :}
+
+            |  expr:e1 DOT expr:e2
+               {: RESULT = new BinaryExpr(e1, BinaryExpr.DOT, e2, false, loc(e1left, e1right)); :}
             ;
 
 cond ::= expr:e1 LE expr:e2
