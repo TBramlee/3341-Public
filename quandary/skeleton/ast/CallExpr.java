@@ -39,6 +39,9 @@ public class CallExpr extends Expr {
             case "isNil": return isNil(env, values);
             case "setLeft": return setLeft(env, values);
             case "setRight": return setRight(env, values);
+            case "acq": return acquire(env, values);
+            case "rel": return release(env, values);
+            
         }
 
         //Find function in Program.funcDefList
@@ -166,6 +169,27 @@ public class CallExpr extends Expr {
         }
         
 
+        return new QIntVal(1);
+    }
+
+    QIntVal acquire(HashMap<String, QVal> env, List<QVal> values) {
+
+        eList.fillValueList(values, env);
+        QVal obj = values.get(0);
+        QRefVal ref = (QRefVal)obj;
+
+        while(!ref.value.isLocked.compareAndSet(false, true)) {}
+    
+        return new QIntVal(1);
+    }
+
+    QIntVal release(HashMap<String, QVal> env, List<QVal> values) {
+
+        eList.fillValueList(values, env);
+        QVal obj = values.get(0);
+        QRefVal ref = (QRefVal)obj;
+
+        ref.value.isLocked.set(false);
         return new QIntVal(1);
     }
 

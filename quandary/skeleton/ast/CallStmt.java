@@ -29,6 +29,8 @@ public class CallStmt extends Stmt {
         switch (funcName) {
             case "setLeft": setLeft(env, values); return null;
             case "setRight": setRight(env, values); return null;
+            case "acq": acquire(env, values); return null;
+            case "rel": release(env, values); return null;
         }
 
         //Find function in Program.funcDefList
@@ -85,6 +87,27 @@ public class CallStmt extends Stmt {
         }
         
 
+        return new QIntVal(1);
+    }
+
+    QIntVal acquire(HashMap<String, QVal> env, List<QVal> values) {
+
+        eList.fillValueList(values, env);
+        QVal obj = values.get(0);
+        QRefVal ref = (QRefVal)obj;
+
+        while(!ref.value.isLocked.compareAndSet(false, true)) {}
+    
+        return new QIntVal(1);
+    }
+
+    QIntVal release(HashMap<String, QVal> env, List<QVal> values) {
+
+        eList.fillValueList(values, env);
+        QVal obj = values.get(0);
+        QRefVal ref = (QRefVal)obj;
+
+        ref.value.isLocked.set(false);
         return new QIntVal(1);
     }
 

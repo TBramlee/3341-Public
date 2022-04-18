@@ -12,14 +12,12 @@ public class BinaryExpr extends Expr {
     final Expr expr1;
     final int operator;
     final Expr expr2;
-    final boolean isConcurrent;
 
-    public BinaryExpr(Expr expr1, int operator, Expr expr2, boolean isConcurrent, Location loc) {
+    public BinaryExpr(Expr expr1, int operator, Expr expr2, Location loc) {
         super(loc);
         this.expr1 = expr1;
         this.operator = operator;
         this.expr2 = expr2;
-        this.isConcurrent = isConcurrent;
     }
 
     @Override
