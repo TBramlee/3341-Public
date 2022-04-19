@@ -9,9 +9,9 @@ public class BinaryExpr extends Expr {
     public static final int TIMES = 3;
     public static final int DOT = 4;
 
-    final Expr expr1;
+    public final Expr expr1;
     final int operator;
-    final Expr expr2;
+    public final Expr expr2;
 
     public BinaryExpr(Expr expr1, int operator, Expr expr2, Location loc) {
         super(loc);
@@ -45,7 +45,7 @@ public class BinaryExpr extends Expr {
        
     }
 
-    static QVal doOperation(QVal obj1, int operator, QVal obj2) {
+    public static QVal doOperation(QVal obj1, int operator, QVal obj2) {
 
         long value1 = 0;
         long value2 = 0;
