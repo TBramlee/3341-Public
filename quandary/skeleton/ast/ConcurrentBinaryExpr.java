@@ -21,8 +21,6 @@ public class ConcurrentBinaryExpr extends Expr {
         
         MyThread t1 = new MyThread(expr.expr1, env);
         MyThread t2 = new MyThread(expr.expr2, env);
-        t1.start();
-        t2.start();
 
         QVal left = t1.eval();
         QVal right = t2.eval();
@@ -33,8 +31,6 @@ public class ConcurrentBinaryExpr extends Expr {
         } catch (InterruptedException ex) {
             System.out.println(expr + " failed to be evaluated concurrently.");
         }
-
-        
 
         return BinaryExpr.doOperation(left, expr.operator, right);
        
