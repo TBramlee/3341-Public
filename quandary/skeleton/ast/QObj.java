@@ -11,6 +11,7 @@ public class QObj {
     public QObj(QVal left, QVal right) {
         this.left = left;
         this.right = right;
+        this.isLocked = new AtomicBoolean();
     }
 
     @Override

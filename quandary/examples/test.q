@@ -1,12 +1,17 @@
 Q main(int arg) {
-    mutable int n = arg;
-    while (n >= 0) {
-        print(replicate(n));
-        n = n - 1;
-    }
-    return nil;
+    
+    Ref list1 = nil. nil;
+    Ref list2 = 4. 3 . 2 . 1;
+
+
+
+    return [ printStuff(arg, list1) . printStuff(arg, list2) ];
 }
 
-int replicate(int n) {
-    return n;
+Q printStuff(int n, Ref list) {
+    if (n > 0) {
+        print (list);
+        return printStuff(n - 1, list);
+    }
+    return nil . nil;
 }

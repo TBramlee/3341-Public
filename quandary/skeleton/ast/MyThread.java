@@ -18,7 +18,10 @@ public class MyThread extends Thread {
     }
 
     public QVal eval() {
-        return expr.eval(env);
+        synchronized(env) {
+            return expr.eval(env);
+        }
+        
     }
 
 }

@@ -36,7 +36,7 @@ public class ConcurrentBinaryExpr extends Expr {
 
         
 
-        return expr.doOperation(left, expr.operator, right);
+        return BinaryExpr.doOperation(left, expr.operator, right);
        
     }
 }

@@ -96,6 +96,8 @@ public class CallStmt extends Stmt {
         QVal obj = values.get(0);
         QRefVal ref = (QRefVal)obj;
 
+        //if object is locked, then do nothing
+        //if object is not locked, then acquire lock and set boolean
         while(!ref.value.isLocked.compareAndSet(false, true)) {}
     
         return new QIntVal(1);
