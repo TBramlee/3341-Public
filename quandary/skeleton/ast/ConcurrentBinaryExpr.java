@@ -48,6 +48,9 @@ public class ConcurrentBinaryExpr extends Expr {
         QVal left = env.remove(thread1Name);
         QVal right = env.remove(thread2Name);
 
+        if(left == null) {System.out.println(expr + " : left side of concurrent binary expression was null : " + expr.expr1);}
+        if(right == null) {System.out.println(expr + " : right side of concurrent binary expression was null : " + expr.expr2);}
+
         return BinaryExpr.doOperation(left, expr.operator, right);
        
     }

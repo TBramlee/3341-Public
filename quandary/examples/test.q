@@ -1,17 +1,10 @@
 Q main(int arg) {
     
-    Ref list1 = nil. nil;
-    Ref list2 = 4. 3 . 2 . 1;
+    int first = arg;
+    int second = arg * 2;
 
 
 
-    return [ printStuff(arg, list1) . printStuff(arg, list2) ];
+    return [ first + second ];
 }
 
-Q printStuff(int n, Ref list) {
-    if (n > 0) {
-        print (list);
-        return printStuff(n - 1, list);
-    }
-    return nil . nil;
-}
