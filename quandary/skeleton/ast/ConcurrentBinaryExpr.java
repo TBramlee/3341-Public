@@ -31,25 +31,16 @@ public class ConcurrentBinaryExpr extends Expr {
         try {
             t1.join();
             t2.join();
-
-            /*
-            if(left == null) {
-                System.out.println(expr.expr1 + " WAS NOT FOUND IN THE ENVIRONMENT");
-            }
-            if(right == null) {
-                System.out.println(expr.expr2 + " WAS NOT FOUND IN THE ENVIRONMENT");
-            }
-            */
             
         } catch (InterruptedException ex) {
             System.out.println(expr + " failed to be evaluated concurrently.");
         }
 
-        QVal left = env.remove(thread1Name);
-        QVal right = env.remove(thread2Name);
+        QVal left = t1.getRetVal();
+        QVal right = t2.getRetVal();
 
         if(left == null) {System.out.println(expr + " : left side of concurrent binary expression was null : " + expr.expr1);}
-        if(right == null) {System.out.println(expr + " : right side of concurrent binary expression was null : " + expr.expr2);}
+        if (right == null) {System.out.println(expr + " : right side of concurrent binary expression was null : " + expr.expr2);}
 
         return BinaryExpr.doOperation(left, expr.operator, right);
        

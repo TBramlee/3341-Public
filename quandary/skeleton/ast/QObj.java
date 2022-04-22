@@ -16,7 +16,9 @@ public class QObj {
 
     @Override
     public String toString() {
-        return "(" + left.toString() + " . " + right.toString() + ")";
+        String leftString = left.toString();
+        String rightString = right.toString();
+        return "(" + leftString + " . " + rightString + ")";
     }
 
 }

@@ -150,6 +150,8 @@ public class CallExpr extends Expr {
         }
         else {
             ref.value = new QObj(val, null);
+            System.out.println("YOU SHOULD NOT BE SEEING THIS LINE");
+            System.out.println();
         }
 
         return new QIntVal(1);
@@ -166,6 +168,8 @@ public class CallExpr extends Expr {
         }
         else {
             ref.value = new QObj(null, val);
+            System.out.println("YOU SHOULD NOT BE SEEING THIS LINE");
+            System.out.println();
         }
         
 

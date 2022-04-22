@@ -51,6 +51,8 @@ public class BinaryExpr extends Expr {
         long value2 = 0;
 
         if (operator != BinaryExpr.DOT) {
+            if(obj1==null) {System.out.println(obj1 + " LEFT IS NULL");}
+            if(obj2==null) {System.out.println(obj2 + " RIGHT IS NULL");}
             value1 = ((QIntVal)obj1).value;
             value2 = ((QIntVal)obj2).value;
         }
